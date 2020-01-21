@@ -19,12 +19,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.farmerbb.appnotifier.AppNotifierApplication
+import com.farmerbb.appnotifier.PLAY_STORE_PACKAGE
+import com.farmerbb.appnotifier.isPlayStoreInstalled
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NotificationDismissedReceiver: BroadcastReceiver() {
+class NotificationClickedReceiver: BroadcastReceiver() {
 
     @Inject lateinit var dao: AppUpdateDAO
 
@@ -33,6 +35,11 @@ class NotificationDismissedReceiver: BroadcastReceiver() {
     }
 
     override fun onReceive(context: Context, intent: Intent) {
+        context.apply {
+            if(isPlayStoreInstalled())
+                startActivity(packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE))
+        }
+
         GlobalScope.launch {
             dao.deleteAll()
         }

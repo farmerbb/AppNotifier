@@ -27,6 +27,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.farmerbb.appnotifier.models.AppUpdateInfo
+import com.farmerbb.appnotifier.receivers.NotificationClickedReceiver
 import com.farmerbb.appnotifier.receivers.NotificationDismissedReceiver
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import kotlinx.coroutines.GlobalScope
@@ -90,27 +91,27 @@ import kotlin.math.min
         val channelId = "app_updates"
         context.createNotificationChannel(channelId)
 
+        val contentIntent = Intent(context, NotificationClickedReceiver::class.java).apply {
+            setPackage(BuildConfig.APPLICATION_ID)
+        }
+
         val deleteIntent = Intent(context, NotificationDismissedReceiver::class.java).apply {
             setPackage(BuildConfig.APPLICATION_ID)
         }
 
+        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
         val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
             .setContentTitle(header)
             .setContentText(content)
+            .setContentIntent(pendingContentIntent)
             .setStyle(NotificationCompat.BigTextStyle())
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setAutoCancel(true)
             .setDeleteIntent(pendingDeleteIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        if(context.isPlayStoreInstalled()) {
-            val contentIntent = context.packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE)
-            val pendingContentIntent = PendingIntent.getActivity(context, 0, contentIntent, FLAGS)
-            builder.setContentIntent(pendingContentIntent)
-        }
 
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
             notify(APP_UPDATE_ID, builder.build())
