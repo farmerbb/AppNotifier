@@ -59,8 +59,6 @@ class AppNotifierService: Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? = null
-
     override fun onCreate() {
         registerReceiver(packageAddedReceiver, IntentFilter(Intent.ACTION_PACKAGE_ADDED).apply {
             addDataScheme("package")
@@ -98,4 +96,7 @@ class AppNotifierService: Service() {
         unregisterReceiver(packageAddedReceiver)
         unregisterReceiver(packageRemovedReceiver)
     }
+
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int) = Service.START_STICKY
+    override fun onBind(intent: Intent) = null
 }
