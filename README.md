@@ -9,7 +9,7 @@ Unhappy with Google's removal of the Play Store's app update notifications? Wish
 * Choose whether notifications are shown for apps from Google Play, or sideloaded apps
 
 ## Limitations
-* Does not detect when apps are in the middle of installing, so there will be a short delay between when an app downloads and when the install or update notifications appear
+* The app does not detect when apps are in the middle of installing, so there will be a short delay between when an app downloads and when the install or update notifications appear.
 * Notifications are generated using data from the apps on your device, not the Play Store itself. So if an app's name differs between the Play Store listing and the actual app on your device, the latter will be used.
 
 ## Download
@@ -26,3 +26,7 @@ Prerequisites:
 * Internet connection (to download dependencies)
 
 Once all the prerequisites are met, make sure that the `ANDROID_HOME` environment variable is set to your Android SDK directory, then run `./gradlew assembleDebug` at the base directory of the project to start the build. After the build completes, navigate to `app/build/outputs/apk/debug` where you will end up with an APK file ready to install on your Android device.
+
+## Contributors
+
+* Jules Guillou (French translation)

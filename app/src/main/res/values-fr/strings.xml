@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Braden Farmer
+
+     Sous Licence Apache, Version 2.0 (la "Licence");
+     vous n'êtes pas permis d'utiliser ce fichier sauf à respecter la Licence.
+     Vous pouvez obtenir une copie de la Licence à cette adresse
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Sous réserve des lois applicables ou d'accord écrit, ce logiciel est 
+     fourni sous Licence et "EN L'ÉTAT", SANS GARANTIE NI CONDITION 
+     DE QUELQUE SORTE, explicite ou implicite.
+     Consulter la Licence pour prendre connaissance du langage spécifique
+     régissant ses permissions et limitations sous ladite Licence.
+-->
+
+<resources>
+    <string name="app_name">AppNotifier</string>
+    <string name="app_name_debug">AppNotifier (Debug)</string>
+
+    <plurals name="apps_updated_header">
+        <item quantity="one">%d application mise à jour</item>
+        <item quantity="other">%d applications mises à jour</item>
+    </plurals>
+
+    <plurals name="apps_updated_footer">
+        <item quantity="one">%d autre</item>
+        <item quantity="other">%d autres</item>
+    </plurals>
+
+    <string name="apps_updated_1">%s</string>
+    <string name="apps_updated_2">%1$s &amp; %2$s</string>
+    <string name="apps_updated_3">%1$s, %2$s, &amp; %3$s</string>
+    <string name="apps_updated_4">%1$s, %2$s, %3$s, &amp; %4$s</string>
+    <string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s, &amp; %5$s</string>
+
+    <string name="app_updates">Mises à jour d\'applications</string>
+    <string name="app_installs">Installations d\'applications</string>
+    <string name="foreground_service">Service au premier plan</string>
+
+    <string name="listening_for_app_updates_header">Surveille installations &amp; mises à jour d\'applications</string>
+    <string name="listening_for_app_updates_content">N\'hésitez pas à désactiver cette notification en cliquant ici. Les notifications d\'installation et de mise à jour continueront à s\'afficher.</string>
+
+    <string name="successfully_installed">Installation effectuée</string>
+
+    <string name="notification_types">Afficher des notifications pour&#8230;</string>
+    <string name="notify_installs">Nouvelles installations d\'applications</string>
+    <string name="notify_updates">Mises à jour d\'applications</string>
+
+    <string name="update_sources">&#8230;quand j\'installe ou mets à jour depuis</string>
+    <string name="notify_play_store">Google Play Store</string>
+    <string name="notify_other_sources">Autres sources</string>
+
+    <string name="about_header">À propos</string>
+    <string name="about_content">AppNotifier rétablie les notifications manquantes du Google Play Store lors d\'installations et de mises à jour d\'applications.\n\n&#169; %d Braden Farmer\n\nCliquez ici pour consulter une éventuelle mise à jour ou laisser un avis !</string>
+
+</resources>
+
+
+
