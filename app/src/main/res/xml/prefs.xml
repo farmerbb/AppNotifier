@@ -58,7 +58,7 @@
 
     <PreferenceCategory
         android:key="additional_settings"
-        android:title="@string/additional_settings"
+        app:initialExpandedChildrenCount="0"
         app:iconSpaceReserved="false">
 
         <Preference

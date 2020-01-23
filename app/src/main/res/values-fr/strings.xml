@@ -54,11 +54,9 @@
     <string name="about_header">À propos</string>
     <string name="about_content">AppNotifier rétablie les notifications manquantes du Google Play Store lors d\'installations et de mises à jour d\'applications.\n\n&#169; %d Braden Farmer\n\nCliquez ici pour consulter une éventuelle mise à jour ou laisser un avis !</string>
 
-    <string name="additional_settings">Additional settings</string>
     <string name="battery_optimization_title">Ignore battery optimizations</string>
-    <string name="battery_optimization_summary">May be needed if notifications don\'t appear consistently</string>
+    <string name="battery_optimization_summary">Might be needed if notifications don\'t appear consistently</string>
     <string name="notification_text_style">Notification text style</string>
-    <string name="app_not_available">App not available for this action</string>
 
     <string-array name="notification_text_style_entries">
         <item>Original (mimic Play Store)</item>
