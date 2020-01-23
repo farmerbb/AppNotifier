@@ -15,6 +15,7 @@
 
 package com.farmerbb.appnotifier.dagger
 
+import android.app.NotificationManager
 import android.content.Context
 import androidx.preference.PreferenceManager
 import androidx.room.Room
@@ -26,7 +27,11 @@ import javax.inject.Singleton
 @Module class AppNotifierModule(private val context: Context) {
     @Provides @Singleton fun provideContext() = context
 
-    @Provides @Singleton fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
+    @Provides @Singleton fun provideSharedPreferences(context: Context)
+            = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides @Singleton fun provideNotificationManager(context: Context)
+            = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     @Provides @Singleton fun provideDatabase(context: Context)
             = Room.databaseBuilder(context, AppUpdateDatabase::class.java, "app_updates").build()

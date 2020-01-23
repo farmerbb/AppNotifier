@@ -41,7 +41,8 @@ import kotlin.math.min
 @Singleton class NotificationController @Inject constructor(
     private val context: Context,
     private val pref: SharedPreferences,
-    private val dao: AppUpdateDAO
+    private val dao: AppUpdateDAO,
+    private val manager: NotificationManager
 ) {
 
     fun buildAppUpdateNotification(appInfo: ApplicationInfo) {
@@ -62,11 +63,11 @@ import kotlin.math.min
                 insert(info)
             }
 
-            buildAppUpdateNotification(list.map { it.label })
+            buildAppUpdateNotification(appInfo, list.map { it.label })
         }
     }
 
-    private fun buildAppUpdateNotification(list: List<String>) {
+    private fun buildAppUpdateNotification(appInfo: ApplicationInfo, list: List<String>) {
         if(list.isEmpty()) return
 
         val header: String
@@ -102,20 +103,28 @@ import kotlin.math.min
         val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
         val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
 
+        val isEnhanced = pref.getString("notification_text_style", "original") == "enhanced"
+
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
             .setContentTitle(header)
             .setContentText(content)
             .setContentIntent(pendingContentIntent)
-            .setStyle(NotificationCompat.BigTextStyle())
+            .setStyle(
+                    if(isEnhanced)
+                        NotificationCompat.BigTextStyle().bigText(list.joinToString(separator = "\n"))
+                    else
+                        NotificationCompat.BigTextStyle()
+            )
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setAutoCancel(true)
             .setDeleteIntent(pendingDeleteIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-            notify(APP_UPDATE_ID, builder.build())
-        }
+        if(isEnhanced)
+            builder.setLargeIcon(getApplicationIcon(appInfo))
+
+        manager.notify(APP_UPDATE_ID, builder.build())
     }
 
     fun buildAppInstallNotification(appInfo: ApplicationInfo) {
@@ -124,20 +133,7 @@ import kotlin.math.min
         val channelId = "app_installs"
         context.createNotificationChannel(channelId)
 
-        val icon = context.packageManager.getApplicationIcon(appInfo)
-        val iconBitmap = if(icon !is BitmapDrawable) {
-            val width = max(icon.intrinsicWidth, 1)
-            val height = max(icon.intrinsicHeight, 1)
-
-            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-
-            icon.setBounds(0, 0, canvas.width, canvas.height)
-            icon.draw(canvas)
-
-            BitmapDrawable(context.resources, bitmap).bitmap
-        } else
-            icon.bitmap
+        val iconBitmap = getApplicationIcon(appInfo)
 
         val contentIntent = context.packageManager.getLaunchIntentForPackage(appInfo.packageName)
         val pendingContentIntent = PendingIntent.getActivity(context, 0, contentIntent, FLAGS)
@@ -162,16 +158,13 @@ import kotlin.math.min
             .setStyle(NotificationCompat.BigTextStyle())
             .setPriority(NotificationCompat.PRIORITY_LOW)
 
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
+        manager.apply {
             notify(APP_INSTALL_ID, groupBuilder.build())
             notify(appInfo.packageName.hashCode(), builder.build())
         }
     }
 
-    fun cancelAppInstallNotification(packageName: String) =
-        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-            cancel(packageName.hashCode())
-        }
+    fun cancelAppInstallNotification(packageName: String) = manager.cancel(packageName.hashCode())
 
     private fun verifyPrefs(appInfo: ApplicationInfo): Boolean {
         val fromPlayStore = context.packageManager.getInstallerPackageName(appInfo.packageName) == PLAY_STORE_PACKAGE
@@ -179,5 +172,22 @@ import kotlin.math.min
         if(pref.getBoolean("notify_other_sources", false) && !fromPlayStore) return true
 
         return false
+    }
+
+    private fun getApplicationIcon(appInfo: ApplicationInfo): Bitmap {
+        val icon = context.packageManager.getApplicationIcon(appInfo)
+        return if(icon !is BitmapDrawable) {
+            val width = max(icon.intrinsicWidth, 1)
+            val height = max(icon.intrinsicHeight, 1)
+
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+
+            icon.setBounds(0, 0, canvas.width, canvas.height)
+            icon.draw(canvas)
+
+            BitmapDrawable(context.resources, bitmap).bitmap
+        } else
+            icon.bitmap
     }
 }

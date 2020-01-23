@@ -57,6 +57,27 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="additional_settings"
+        android:title="@string/additional_settings"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="battery_optimization"
+            android:title="@string/battery_optimization_title"
+            android:summary="@string/battery_optimization_summary"
+            app:iconSpaceReserved="false"/>
+
+        <ListPreference
+            android:key="notification_text_style"
+            android:title="@string/notification_text_style"
+            android:defaultValue="original"
+            android:entries="@array/notification_text_style_entries"
+            android:entryValues="@array/notification_text_style_values"
+            app:iconSpaceReserved="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="about_header"
         android:title="@string/about_header"
         app:iconSpaceReserved="false">

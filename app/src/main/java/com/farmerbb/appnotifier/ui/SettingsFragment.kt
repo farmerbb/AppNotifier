@@ -15,23 +15,32 @@
 
 package com.farmerbb.appnotifier.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.provider.Settings
 import android.view.View
 import androidx.core.net.toUri
 import androidx.preference.CheckBoxPreference
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import com.farmerbb.appnotifier.BuildConfig
-import com.farmerbb.appnotifier.R
-import com.farmerbb.appnotifier.initAppNotifierService
-import com.farmerbb.appnotifier.isPlayStoreInstalled
+import com.farmerbb.appnotifier.*
 import java.util.*
+import javax.inject.Inject
 
 class SettingsFragment: PreferenceFragmentCompat() {
+
+    @Inject lateinit var pref: SharedPreferences
+
+    init {
+        AppNotifierApplication.component.inject(this)
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)
@@ -45,17 +54,35 @@ class SettingsFragment: PreferenceFragmentCompat() {
             summary = getString(R.string.about_content, calendar.get(Calendar.YEAR))
 
             setOnPreferenceClickListener {
-                if(!requireContext().isPlayStoreInstalled())
-                    return@setOnPreferenceClickListener true
-
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = "market://details?id=${BuildConfig.APPLICATION_ID}".toUri()
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
 
-                startActivity(intent)
+                startActivitySafely(intent)
                 true
             }
+        }
+
+        findPreference<Preference>("battery_optimization")?.apply {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                setOnPreferenceClickListener {
+                    startActivitySafely(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
+                    true
+                }
+            } else
+                preferenceScreen.removePreference(this)
+        }
+
+        findPreference<ListPreference>("notification_text_style")?.apply {
+            val listener = Preference.OnPreferenceChangeListener { _, newValue ->
+                val index = findIndexOfValue(newValue.toString())
+                summary = if(index >= 0) entries[index] else null
+                true
+            }
+
+            onPreferenceChangeListener = listener
+            listener.onPreferenceChange(this, pref.getString(key, "original"))
         }
     }
 
@@ -76,5 +103,11 @@ class SettingsFragment: PreferenceFragmentCompat() {
                 true
             }
         }
+    }
+
+    private fun startActivitySafely(intent: Intent) {
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {}
     }
 }
