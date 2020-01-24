@@ -136,6 +136,8 @@ import kotlin.math.min
         val iconBitmap = getApplicationIcon(appInfo)
 
         val contentIntent = context.packageManager.getLaunchIntentForPackage(appInfo.packageName)
+                ?: getPlayStoreLaunchIntent(appInfo.packageName)
+
         val pendingContentIntent = PendingIntent.getActivity(context, 0, contentIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)

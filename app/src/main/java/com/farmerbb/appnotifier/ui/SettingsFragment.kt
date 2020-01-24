@@ -25,7 +25,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.provider.Settings
 import android.view.View
-import androidx.core.net.toUri
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
 import androidx.preference.Preference
@@ -54,8 +53,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
             summary = getString(R.string.about_content, calendar.get(Calendar.YEAR))
 
             setOnPreferenceClickListener {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = "market://details?id=${BuildConfig.APPLICATION_ID}".toUri()
+                val intent = getPlayStoreLaunchIntent(BuildConfig.APPLICATION_ID).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 }
 

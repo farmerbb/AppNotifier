@@ -23,6 +23,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
+import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
 
 fun Context.initAppNotifierService() {
@@ -54,6 +55,10 @@ fun Context.isPlayStoreInstalled() = try {
     true
 } catch (e: PackageManager.NameNotFoundException) {
     false
+}
+
+fun getPlayStoreLaunchIntent(packageName: String) = Intent(Intent.ACTION_VIEW).apply {
+    data = "https://play.google.com/store/apps/details?id=$packageName".toUri()
 }
 
 const val FOREGROUND_SERVICE_ID = Integer.MAX_VALUE

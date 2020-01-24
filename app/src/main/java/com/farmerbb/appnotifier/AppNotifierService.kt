@@ -21,8 +21,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
-import android.os.IBinder
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
@@ -41,7 +41,11 @@ class AppNotifierService: Service() {
     private val packageAddedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val packageName = intent.dataString?.removePrefix("package:").orEmpty()
-            val appInfo = packageManager.getApplicationInfo(packageName, 0)
+            val appInfo = try {
+                packageManager.getApplicationInfo(packageName, 0)
+            } catch (e: PackageManager.NameNotFoundException) {
+                return
+            }
 
             if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
                 controller.buildAppUpdateNotification(appInfo)
@@ -97,6 +101,6 @@ class AppNotifierService: Service() {
         unregisterReceiver(packageRemovedReceiver)
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int) = Service.START_STICKY
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int) = START_STICKY
     override fun onBind(intent: Intent) = null
 }
