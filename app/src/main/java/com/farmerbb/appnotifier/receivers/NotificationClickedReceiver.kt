@@ -15,6 +15,7 @@
 
 package com.farmerbb.appnotifier.receivers
 
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -36,8 +37,15 @@ class NotificationClickedReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         context.apply {
-            if(isPlayStoreInstalled())
+            if(!isPlayStoreInstalled()) return@apply
+
+            try {
+                startActivity(Intent("com.google.android.finsky.VIEW_MY_DOWNLOADS").apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
+            } catch (e: ActivityNotFoundException) {
                 startActivity(packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE))
+            }
         }
 
         GlobalScope.launch {
