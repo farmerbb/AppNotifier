@@ -26,11 +26,15 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import com.farmerbb.appnotifier.room.AppUpdateDAO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AppNotifierService: Service() {
 
     @Inject lateinit var controller: NotificationController
+    @Inject lateinit var dao: AppUpdateDAO
 
     init {
         AppNotifierApplication.component.inject(this)
@@ -39,16 +43,13 @@ class AppNotifierService: Service() {
     private val packageAddedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val packageName = intent.dataString?.removePrefix("package:").orEmpty()
-            val appInfo = try {
-                packageManager.getApplicationInfo(packageName, 0)
-            } catch (e: PackageManager.NameNotFoundException) {
-                return
-            }
 
-            if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
-                controller.handleAppUpdateNotification(appInfo)
-            else
-                controller.handleAppInstallNotification(appInfo)
+            getApplicationInfoSafely(packageName, dao)?.let {
+                if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
+                    controller.handleAppUpdateNotification(it)
+                else
+                    controller.handleAppInstallNotification(it)
+            }
         }
     }
 

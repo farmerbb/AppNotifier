@@ -154,6 +154,8 @@ import kotlin.math.min
         val channelId = "app_installs"
         context.createNotificationChannel(channelId)
 
+        val code = packageName.hashCode()
+
         val contentIntent = Intent(context, InstallNotificationClickedReceiver::class.java).apply {
             setPackage(BuildConfig.APPLICATION_ID)
             putExtra(PACKAGE_NAME, packageName)
@@ -164,8 +166,8 @@ import kotlin.math.min
             putExtra(PACKAGE_NAME, packageName)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
-        val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
+        val pendingContentIntent = PendingIntent.getBroadcast(context, code, contentIntent, FLAGS)
+        val pendingDeleteIntent = PendingIntent.getBroadcast(context, code, deleteIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
@@ -190,7 +192,7 @@ import kotlin.math.min
 
         manager.apply {
             notify(APP_INSTALL_ID, groupBuilder.build())
-            notify(packageName.hashCode(), builder.build())
+            notify(code, builder.build())
         }
     }
 
@@ -226,8 +228,9 @@ import kotlin.math.min
 
         GlobalScope.launch {
             val updates = dao.getAllUpdates().reversed()
-            val latestAppInfo = context.packageManager.getApplicationInfo(updates.first().packageName, 0)
-            buildAppUpdateNotification(updates.map { it.label }, lazy { getIcon(latestAppInfo) })
+            context.getApplicationInfoSafely(updates.first().packageName, dao)?.let {
+                buildAppUpdateNotification(updates.map { it.label }, lazy { getIcon(it) })
+            }
         }
     }
 
@@ -236,8 +239,9 @@ import kotlin.math.min
 
         GlobalScope.launch {
             for(install in dao.getAllInstalls()) {
-                val appInfo = context.packageManager.getApplicationInfo(install.packageName, 0)
-                buildAppInstallNotification(install.packageName, install.label, getIcon(appInfo))
+                context.getApplicationInfoSafely(install.packageName, dao)?.let {
+                    buildAppInstallNotification(install.packageName, install.label, getIcon(it))
+                }
             }
         }
     }

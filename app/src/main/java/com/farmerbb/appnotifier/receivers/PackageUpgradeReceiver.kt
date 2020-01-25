@@ -18,15 +18,14 @@ package com.farmerbb.appnotifier.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.farmerbb.appnotifier.AppNotifierApplication
-import com.farmerbb.appnotifier.BuildConfig
-import com.farmerbb.appnotifier.NotificationController
-import com.farmerbb.appnotifier.initAppNotifierService
+import com.farmerbb.appnotifier.*
+import com.farmerbb.appnotifier.room.AppUpdateDAO
 import javax.inject.Inject
 
 class PackageUpgradeReceiver: BroadcastReceiver() {
 
     @Inject lateinit var controller: NotificationController
+    @Inject lateinit var dao: AppUpdateDAO
 
     init {
         AppNotifierApplication.component.inject(this)
@@ -35,12 +34,15 @@ class PackageUpgradeReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if(intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
 
-        context.initAppNotifierService()
+        context.apply {
+            initAppNotifierService()
 
-        val appInfo = context.packageManager.getApplicationInfo(BuildConfig.APPLICATION_ID, 0)
-        controller.apply {
-            handleAppUpdateNotification(appInfo)
-            replayAppInstalls()
+            getApplicationInfoSafely(BuildConfig.APPLICATION_ID, dao)?.let {
+                controller.apply {
+                    handleAppUpdateNotification(it)
+                    replayAppInstalls()
+                }
+            }
         }
     }
 }

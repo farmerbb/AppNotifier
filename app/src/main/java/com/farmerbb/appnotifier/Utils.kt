@@ -22,11 +22,15 @@ import android.app.Service
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
+import com.farmerbb.appnotifier.room.AppUpdateDAO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 fun Context.initAppNotifierService() {
     val pref = PreferenceManager.getDefaultSharedPreferences(this)
@@ -70,6 +74,21 @@ fun Context.startActivitySafely(intent: Intent) {
 }
 
 fun Fragment.startActivitySafely(intent: Intent) = requireContext().startActivitySafely(intent)
+
+fun Context.getApplicationInfoSafely(packageName: String, dao: AppUpdateDAO): ApplicationInfo? {
+    return try {
+        packageManager.getApplicationInfo(packageName, 0)
+    } catch (e: PackageManager.NameNotFoundException) {
+        GlobalScope.launch {
+            dao.apply {
+                deleteInstall(packageName)
+                deleteUpdate(packageName)
+            }
+        }
+
+        null
+    }
+}
 
 const val FOREGROUND_SERVICE_ID = Integer.MAX_VALUE
 const val APP_UPDATE_ID = Integer.MAX_VALUE - 1
