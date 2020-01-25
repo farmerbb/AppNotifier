@@ -54,7 +54,7 @@ import kotlin.math.min
             packageName = appInfo.packageName,
             label = appInfo.loadLabel(context.packageManager).toString(),
             updatedAt = Date(),
-            isInstall = true
+            isInstall = false
         )
 
         GlobalScope.launch {
