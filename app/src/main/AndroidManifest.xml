@@ -42,8 +42,10 @@
 
         <service android:name=".AppNotifierService"/>
 
-        <receiver android:name=".receivers.NotificationClickedReceiver"/>
-        <receiver android:name=".receivers.NotificationDismissedReceiver"/>
+        <receiver android:name=".receivers.InstallNotificationClickedReceiver"/>
+        <receiver android:name=".receivers.InstallNotificationDismissedReceiver"/>
+        <receiver android:name=".receivers.UpdateNotificationClickedReceiver"/>
+        <receiver android:name=".receivers.UpdateNotificationDismissedReceiver"/>
 
         <receiver
             android:name=".receivers.BootReceiver"

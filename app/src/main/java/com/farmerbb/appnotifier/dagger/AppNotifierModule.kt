@@ -19,6 +19,8 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.preference.PreferenceManager
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.farmerbb.appnotifier.room.AppUpdateDatabase
 import dagger.Module
 import dagger.Provides
@@ -34,7 +36,13 @@ import javax.inject.Singleton
             = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
     @Provides @Singleton fun provideDatabase(context: Context)
-            = Room.databaseBuilder(context, AppUpdateDatabase::class.java, "app_updates").build()
+            = Room.databaseBuilder(context, AppUpdateDatabase::class.java, "app_updates")
+            .addMigrations(object: Migration(1, 2) {
+                override fun migrate(database: SupportSQLiteDatabase) {
+                    database.execSQL("ALTER TABLE AppUpdateInfo ADD COLUMN isInstall INTEGER DEFAULT 0")
+                }
+            })
+            .build()
 
     @Provides @Singleton fun provideDAO(db: AppUpdateDatabase) = db.getDAO()
 }

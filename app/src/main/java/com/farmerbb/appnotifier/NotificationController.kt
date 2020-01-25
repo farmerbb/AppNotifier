@@ -27,8 +27,10 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.farmerbb.appnotifier.models.AppUpdateInfo
-import com.farmerbb.appnotifier.receivers.NotificationClickedReceiver
-import com.farmerbb.appnotifier.receivers.NotificationDismissedReceiver
+import com.farmerbb.appnotifier.receivers.InstallNotificationClickedReceiver
+import com.farmerbb.appnotifier.receivers.InstallNotificationDismissedReceiver
+import com.farmerbb.appnotifier.receivers.UpdateNotificationClickedReceiver
+import com.farmerbb.appnotifier.receivers.UpdateNotificationDismissedReceiver
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -45,29 +47,30 @@ import kotlin.math.min
     private val manager: NotificationManager
 ) {
 
-    fun buildAppUpdateNotification(appInfo: ApplicationInfo) {
-        if(!pref.getBoolean("notify_updates", true) || !verifyPrefs(appInfo)) return
+    fun handleAppUpdateNotification(appInfo: ApplicationInfo) {
+        if(!pref.getBoolean("notify_updates", true) || !verifyPrefs(appInfo.packageName)) return
 
         val info = AppUpdateInfo(
             packageName = appInfo.packageName,
             label = appInfo.loadLabel(context.packageManager).toString(),
-            updatedAt = Date()
+            updatedAt = Date(),
+            isInstall = true
         )
 
         GlobalScope.launch {
             val list: List<AppUpdateInfo>
 
             dao.apply {
-                delete(info.packageName)
-                list = getAll().plus(info).reversed()
+                deleteUpdate(info.packageName)
+                list = getAllUpdates().plus(info).reversed()
                 insert(info)
             }
 
-            buildAppUpdateNotification(appInfo, list.map { it.label })
+            buildAppUpdateNotification(list.map { it.label }, lazy { getIcon(appInfo) })
         }
     }
 
-    private fun buildAppUpdateNotification(appInfo: ApplicationInfo, list: List<String>) {
+    private fun buildAppUpdateNotification(list: List<String>, icon: Lazy<Bitmap>) {
         if(list.isEmpty()) return
 
         val header: String
@@ -92,11 +95,11 @@ import kotlin.math.min
         val channelId = "app_updates"
         context.createNotificationChannel(channelId)
 
-        val contentIntent = Intent(context, NotificationClickedReceiver::class.java).apply {
+        val contentIntent = Intent(context, UpdateNotificationClickedReceiver::class.java).apply {
             setPackage(BuildConfig.APPLICATION_ID)
         }
 
-        val deleteIntent = Intent(context, NotificationDismissedReceiver::class.java).apply {
+        val deleteIntent = Intent(context, UpdateNotificationDismissedReceiver::class.java).apply {
             setPackage(BuildConfig.APPLICATION_ID)
         }
 
@@ -122,33 +125,58 @@ import kotlin.math.min
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         if(isEnhanced)
-            builder.setLargeIcon(getApplicationIcon(appInfo))
+            builder.setLargeIcon(icon.value)
 
         manager.notify(APP_UPDATE_ID, builder.build())
     }
 
-    fun buildAppInstallNotification(appInfo: ApplicationInfo) {
-        if(!pref.getBoolean("notify_installs", true) || !verifyPrefs(appInfo)) return
+    fun handleAppInstallNotification(appInfo: ApplicationInfo) {
+        if(!pref.getBoolean("notify_installs", true) || !verifyPrefs(appInfo.packageName)) return
 
+        val info = AppUpdateInfo(
+                packageName = appInfo.packageName,
+                label = appInfo.loadLabel(context.packageManager).toString(),
+                updatedAt = Date(),
+                isInstall = true
+        )
+
+        GlobalScope.launch {
+            dao.apply {
+                deleteInstall(info.packageName)
+                insert(info)
+            }
+
+            buildAppInstallNotification(info.packageName, info.label, getIcon(appInfo))
+        }
+    }
+
+    private fun buildAppInstallNotification(packageName: String, label: String, icon: Bitmap) {
         val channelId = "app_installs"
         context.createNotificationChannel(channelId)
 
-        val iconBitmap = getApplicationIcon(appInfo)
+        val contentIntent = Intent(context, InstallNotificationClickedReceiver::class.java).apply {
+            setPackage(BuildConfig.APPLICATION_ID)
+            putExtra(PACKAGE_NAME, packageName)
+        }
 
-        val contentIntent = context.packageManager.getLaunchIntentForPackage(appInfo.packageName)
-                ?: getPlayStoreLaunchIntent(appInfo.packageName)
+        val deleteIntent = Intent(context, InstallNotificationDismissedReceiver::class.java).apply {
+            setPackage(BuildConfig.APPLICATION_ID)
+            putExtra(PACKAGE_NAME, packageName)
+        }
 
-        val pendingContentIntent = PendingIntent.getActivity(context, 0, contentIntent, FLAGS)
+        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
+        val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
-            .setContentTitle(appInfo.loadLabel(context.packageManager))
+            .setContentTitle(label)
             .setContentText(context.getString(R.string.successfully_installed))
             .setContentIntent(pendingContentIntent)
             .setStyle(NotificationCompat.BigTextStyle())
-            .setLargeIcon(iconBitmap)
+            .setLargeIcon(icon)
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setAutoCancel(true)
+            .setDeleteIntent(pendingDeleteIntent)
             .setGroup(APP_INSTALL_GROUP)
             .setPriority(NotificationCompat.PRIORITY_LOW)
 
@@ -162,21 +190,21 @@ import kotlin.math.min
 
         manager.apply {
             notify(APP_INSTALL_ID, groupBuilder.build())
-            notify(appInfo.packageName.hashCode(), builder.build())
+            notify(packageName.hashCode(), builder.build())
         }
     }
 
     fun cancelAppInstallNotification(packageName: String) = manager.cancel(packageName.hashCode())
 
-    private fun verifyPrefs(appInfo: ApplicationInfo): Boolean {
-        val fromPlayStore = context.packageManager.getInstallerPackageName(appInfo.packageName) == PLAY_STORE_PACKAGE
+    private fun verifyPrefs(packageName: String): Boolean {
+        val fromPlayStore = context.packageManager.getInstallerPackageName(packageName) == PLAY_STORE_PACKAGE
         if(pref.getBoolean("notify_play_store", true) && fromPlayStore) return true
         if(pref.getBoolean("notify_other_sources", false) && !fromPlayStore) return true
 
         return false
     }
 
-    private fun getApplicationIcon(appInfo: ApplicationInfo): Bitmap {
+    private fun getIcon(appInfo: ApplicationInfo): Bitmap {
         val icon = context.packageManager.getApplicationIcon(appInfo)
         return if(icon !is BitmapDrawable) {
             val width = max(icon.intrinsicWidth, 1)
@@ -191,5 +219,26 @@ import kotlin.math.min
             BitmapDrawable(context.resources, bitmap).bitmap
         } else
             icon.bitmap
+    }
+
+    fun replayAppUpdates() {
+        if(!pref.getBoolean("notify_updates", true)) return
+
+        GlobalScope.launch {
+            val updates = dao.getAllUpdates().reversed()
+            val latestAppInfo = context.packageManager.getApplicationInfo(updates.first().packageName, 0)
+            buildAppUpdateNotification(updates.map { it.label }, lazy { getIcon(latestAppInfo) })
+        }
+    }
+
+    fun replayAppInstalls() {
+        if(!pref.getBoolean("notify_installs", true)) return
+
+        GlobalScope.launch {
+            for(install in dao.getAllInstalls()) {
+                val appInfo = context.packageManager.getApplicationInfo(install.packageName, 0)
+                buildAppInstallNotification(install.packageName, install.label, getIcon(appInfo))
+            }
+        }
     }
 }

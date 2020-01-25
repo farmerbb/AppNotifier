@@ -19,28 +19,34 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.farmerbb.appnotifier.AppNotifierApplication
-import com.farmerbb.appnotifier.BuildConfig
-import com.farmerbb.appnotifier.NotificationController
-import com.farmerbb.appnotifier.initAppNotifierService
+import com.farmerbb.appnotifier.PACKAGE_NAME
+import com.farmerbb.appnotifier.getPlayStoreLaunchIntent
+import com.farmerbb.appnotifier.room.AppUpdateDAO
+import com.farmerbb.appnotifier.startActivitySafely
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PackageUpgradeReceiver: BroadcastReceiver() {
+class InstallNotificationClickedReceiver: BroadcastReceiver() {
 
-    @Inject lateinit var controller: NotificationController
+    @Inject lateinit var dao: AppUpdateDAO
 
     init {
         AppNotifierApplication.component.inject(this)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        if(intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
+        val packageName = intent.getStringExtra(PACKAGE_NAME).orEmpty()
 
-        context.initAppNotifierService()
+        context.apply {
+            startActivitySafely(packageManager.getLaunchIntentForPackage(packageName)
+                    ?: getPlayStoreLaunchIntent(packageName).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    })
+        }
 
-        val appInfo = context.packageManager.getApplicationInfo(BuildConfig.APPLICATION_ID, 0)
-        controller.apply {
-            handleAppUpdateNotification(appInfo)
-            replayAppInstalls()
+        GlobalScope.launch {
+            dao.deleteInstall(packageName)
         }
     }
 }

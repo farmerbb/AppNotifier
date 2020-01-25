@@ -24,5 +24,6 @@ import java.util.*
     val id: Int = 0,
     val packageName: String,
     val label: String,
-    val updatedAt: Date
+    val updatedAt: Date,
+    val isInstall: Boolean
 )

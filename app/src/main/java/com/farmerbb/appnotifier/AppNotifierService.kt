@@ -26,12 +26,10 @@ import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import com.farmerbb.appnotifier.room.AppUpdateDAO
 import javax.inject.Inject
 
 class AppNotifierService: Service() {
 
-    @Inject lateinit var dao: AppUpdateDAO
     @Inject lateinit var controller: NotificationController
 
     init {
@@ -48,9 +46,9 @@ class AppNotifierService: Service() {
             }
 
             if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
-                controller.buildAppUpdateNotification(appInfo)
+                controller.handleAppUpdateNotification(appInfo)
             else
-                controller.buildAppInstallNotification(appInfo)
+                controller.handleAppInstallNotification(appInfo)
         }
     }
 

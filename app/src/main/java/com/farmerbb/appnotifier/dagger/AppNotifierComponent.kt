@@ -16,9 +16,7 @@
 package com.farmerbb.appnotifier.dagger
 
 import com.farmerbb.appnotifier.AppNotifierService
-import com.farmerbb.appnotifier.receivers.NotificationClickedReceiver
-import com.farmerbb.appnotifier.receivers.NotificationDismissedReceiver
-import com.farmerbb.appnotifier.receivers.PackageUpgradeReceiver
+import com.farmerbb.appnotifier.receivers.*
 import com.farmerbb.appnotifier.ui.SettingsFragment
 import dagger.Component
 import javax.inject.Singleton
@@ -27,7 +25,10 @@ import javax.inject.Singleton
 @Singleton interface AppNotifierComponent {
     fun inject(fragment: SettingsFragment)
     fun inject(service: AppNotifierService)
-    fun inject(receiver: NotificationClickedReceiver)
-    fun inject(receiver: NotificationDismissedReceiver)
+    fun inject(receiver: BootReceiver)
+    fun inject(receiver: InstallNotificationClickedReceiver)
+    fun inject(receiver: InstallNotificationDismissedReceiver)
     fun inject(receiver: PackageUpgradeReceiver)
+    fun inject(receiver: UpdateNotificationClickedReceiver)
+    fun inject(receiver: UpdateNotificationDismissedReceiver)
 }

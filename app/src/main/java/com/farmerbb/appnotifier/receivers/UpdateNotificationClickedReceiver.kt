@@ -15,32 +15,41 @@
 
 package com.farmerbb.appnotifier.receivers
 
+import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.farmerbb.appnotifier.AppNotifierApplication
-import com.farmerbb.appnotifier.BuildConfig
-import com.farmerbb.appnotifier.NotificationController
-import com.farmerbb.appnotifier.initAppNotifierService
+import com.farmerbb.appnotifier.PLAY_STORE_PACKAGE
+import com.farmerbb.appnotifier.isPlayStoreInstalled
+import com.farmerbb.appnotifier.room.AppUpdateDAO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PackageUpgradeReceiver: BroadcastReceiver() {
+class UpdateNotificationClickedReceiver: BroadcastReceiver() {
 
-    @Inject lateinit var controller: NotificationController
+    @Inject lateinit var dao: AppUpdateDAO
 
     init {
         AppNotifierApplication.component.inject(this)
     }
 
     override fun onReceive(context: Context, intent: Intent) {
-        if(intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
+        context.apply {
+            if(!isPlayStoreInstalled()) return@apply
 
-        context.initAppNotifierService()
+            try {
+                startActivity(Intent("com.google.android.finsky.VIEW_MY_DOWNLOADS").apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
+            } catch (e: ActivityNotFoundException) {
+                startActivity(packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE))
+            }
+        }
 
-        val appInfo = context.packageManager.getApplicationInfo(BuildConfig.APPLICATION_ID, 0)
-        controller.apply {
-            handleAppUpdateNotification(appInfo)
-            replayAppInstalls()
+        GlobalScope.launch {
+            dao.deleteAllUpdates()
         }
     }
 }

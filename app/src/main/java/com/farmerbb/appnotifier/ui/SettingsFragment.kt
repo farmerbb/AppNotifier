@@ -15,7 +15,6 @@
 
 package com.farmerbb.appnotifier.ui
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -101,11 +100,5 @@ class SettingsFragment: PreferenceFragmentCompat() {
                 true
             }
         }
-    }
-
-    private fun startActivitySafely(intent: Intent) {
-        try {
-            startActivity(intent)
-        } catch (e: ActivityNotFoundException) {}
     }
 }

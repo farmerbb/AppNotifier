@@ -30,14 +30,23 @@ import com.farmerbb.appnotifier.models.AppUpdateInfo
 
     // Read
 
-    @Query("SELECT * FROM AppUpdateInfo ORDER BY updatedAt")
-    suspend fun getAll(): List<AppUpdateInfo>
+    @Query("SELECT * FROM AppUpdateInfo WHERE isInstall = 0 ORDER BY updatedAt")
+    suspend fun getAllUpdates(): List<AppUpdateInfo>
+
+    @Query("SELECT * FROM AppUpdateInfo WHERE isInstall = 1 ORDER BY updatedAt")
+    suspend fun getAllInstalls(): List<AppUpdateInfo>
 
     // Delete
 
-    @Query("DELETE FROM AppUpdateInfo WHERE packageName = :packageName")
-    suspend fun delete(packageName: String)
+    @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 0 AND packageName = :packageName")
+    suspend fun deleteUpdate(packageName: String)
 
-    @Query("DELETE FROM AppUpdateInfo")
-    suspend fun deleteAll()
+    @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 1 AND packageName = :packageName")
+    suspend fun deleteInstall(packageName: String)
+
+    @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 0")
+    suspend fun deleteAllUpdates()
+
+    @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 1")
+    suspend fun deleteAllInstalls()
 }

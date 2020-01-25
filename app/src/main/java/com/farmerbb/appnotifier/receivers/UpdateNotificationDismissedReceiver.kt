@@ -24,7 +24,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NotificationDismissedReceiver: BroadcastReceiver() {
+class UpdateNotificationDismissedReceiver: BroadcastReceiver() {
 
     @Inject lateinit var dao: AppUpdateDAO
 
@@ -34,7 +34,7 @@ class NotificationDismissedReceiver: BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         GlobalScope.launch {
-            dao.deleteAll()
+            dao.deleteAllUpdates()
         }
     }
 }

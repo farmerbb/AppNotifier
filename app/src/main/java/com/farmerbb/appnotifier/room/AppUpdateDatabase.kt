@@ -24,7 +24,7 @@ import java.util.*
 
 @Database(
     entities = [AppUpdateInfo::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)

@@ -19,11 +19,13 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.net.toUri
+import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 
 fun Context.initAppNotifierService() {
@@ -61,11 +63,20 @@ fun getPlayStoreLaunchIntent(packageName: String) = Intent(Intent.ACTION_VIEW).a
     data = "https://play.google.com/store/apps/details?id=$packageName".toUri()
 }
 
+fun Context.startActivitySafely(intent: Intent) {
+    try {
+        startActivity(intent)
+    } catch (e: ActivityNotFoundException) {}
+}
+
+fun Fragment.startActivitySafely(intent: Intent) = requireContext().startActivitySafely(intent)
+
 const val FOREGROUND_SERVICE_ID = Integer.MAX_VALUE
 const val APP_UPDATE_ID = Integer.MAX_VALUE - 1
 const val APP_INSTALL_ID = Integer.MAX_VALUE - 2
 
 const val APP_INSTALL_GROUP = "app_install_group"
+const val PACKAGE_NAME = "package_name"
 const val PLAY_STORE_PACKAGE = "com.android.vending"
 
 const val FLAGS = PendingIntent.FLAG_UPDATE_CURRENT
