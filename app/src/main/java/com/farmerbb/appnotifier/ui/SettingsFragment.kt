@@ -15,6 +15,7 @@
 
 package com.farmerbb.appnotifier.ui
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
@@ -35,6 +36,8 @@ import javax.inject.Inject
 class SettingsFragment: PreferenceFragmentCompat() {
 
     @Inject lateinit var pref: SharedPreferences
+    @Inject lateinit var manager: NotificationManager
+    @Inject lateinit var controller: NotificationController
 
     init {
         AppNotifierApplication.component.inject(this)
@@ -72,14 +75,26 @@ class SettingsFragment: PreferenceFragmentCompat() {
         }
 
         findPreference<ListPreference>("notification_text_style")?.apply {
+            var recreateNotification = false
+
             val listener = Preference.OnPreferenceChangeListener { _, newValue ->
                 val index = findIndexOfValue(newValue.toString())
                 summary = if(index >= 0) entries[index] else null
+
+                if(recreateNotification && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    for(notification in manager.activeNotifications) {
+                        if(notification.id == APP_UPDATE_ID)
+                            controller.replayAppUpdates()
+                    }
+                }
+
                 true
             }
 
             onPreferenceChangeListener = listener
             listener.onPreferenceChange(this, pref.getString(key, "original"))
+
+            recreateNotification = true
         }
     }
 
