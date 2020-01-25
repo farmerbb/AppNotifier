@@ -25,7 +25,7 @@ android {
         versionCode 5
         versionName "1.1"
 
-        resConfigs "en", "fr"
+        resConfigs "en", "fr", "de"
         vectorDrawables.generatedDensities = []
 
         buildConfigField "long", "TIMESTAMP", "${System.currentTimeMillis()}L"

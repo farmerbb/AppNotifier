@@ -30,3 +30,4 @@ Once all the prerequisites are met, make sure that the `ANDROID_HOME` environmen
 ## Contributors
 
 * Jules Guillou (French translation)
+* Benjamin Schütte (German translation)
