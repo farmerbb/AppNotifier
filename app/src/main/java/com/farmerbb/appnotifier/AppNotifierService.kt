@@ -99,6 +99,6 @@ class AppNotifierService: Service() {
         unregisterReceiver(packageRemovedReceiver)
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int) = START_STICKY
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int) = START_STICKY
     override fun onBind(intent: Intent) = null
 }
