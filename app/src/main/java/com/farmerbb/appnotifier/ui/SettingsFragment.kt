@@ -71,7 +71,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
                     true
                 }
             } else
-                preferenceScreen.onExpandButtonClickListener
+                preferenceScreen.removePreference(this)
         }
 
         findPreference<ListPreference>("notification_text_style")?.apply {
