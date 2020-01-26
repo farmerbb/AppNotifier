@@ -46,7 +46,4 @@ import com.farmerbb.appnotifier.models.AppUpdateInfo
 
     @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 0")
     suspend fun deleteAllUpdates()
-
-    @Query("DELETE FROM AppUpdateInfo WHERE isInstall = 1")
-    suspend fun deleteAllInstalls()
 }
