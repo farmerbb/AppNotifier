@@ -196,7 +196,16 @@ import kotlin.math.min
         }
     }
 
-    fun cancelAppInstallNotification(packageName: String) = manager.cancel(packageName.hashCode())
+    fun cancelAppInstallNotification(packageName: String) {
+        manager.cancel(packageName.hashCode())
+
+        GlobalScope.launch {
+            dao.deleteInstall(packageName)
+
+            if(dao.getAllInstalls().isEmpty())
+                manager.cancel(APP_INSTALL_ID)
+        }
+    }
 
     private fun verifyPrefs(packageName: String): Boolean {
         val fromPlayStore = context.packageManager.getInstallerPackageName(packageName) == PLAY_STORE_PACKAGE
