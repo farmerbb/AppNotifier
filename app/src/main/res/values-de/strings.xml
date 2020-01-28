@@ -51,15 +51,15 @@
     <string name="notify_play_store">Google Play Store</string>
     <string name="notify_other_sources">Anderen Quellen (Sideloading)</string>
 
-    <string name="about_header">Über den AppNotifier</string>
-    <string name="about_content">Der AppNotifier stellt die nicht mehr vorhandenen Benachrichtigungen des Play Store bei App-Installationen oder -Updates wieder her.\n\n&#169; %d Braden Farmer\n\nKlicke hier, um auf Aktualisierungen zu prüfen oder eine Bewertung zu hinterlassen!</string>
+    <string name="about_header">Über AppNotifier</string>
+    <string name="about_content">Der AppNotifier stellt die nicht mehr unterstützten Benachrichtigungen des Play Store bei Installationen oder Updates von Apps wieder her.\n\n&#169; %d Braden Farmer\n\nKlicke hier, um auf Aktualisierungen zu prüfen oder eine Bewertung zu hinterlassen!</string>
 
     <string name="battery_optimization_title">Akku-Optimierung deaktivieren</string>
-    <string name="battery_optimization_summary">Eventuell hilfreich, wenn Benachrichtigungen nicht zuverlässig erscheinen</string>
+    <string name="battery_optimization_summary">Eventuell hilfreich, falls Benachrichtigungen nicht zuverlässig erscheinen</string>
     <string name="notification_text_style">Textstil der Benachrichtigungen</string>
 
     <string-array name="notification_text_style_entries">
-        <item>Original (Play Store nachahmen)</item>
+        <item>Original (Wie Play Store)</item>
         <item>Erweitert (Mehr Details anzeigen)</item>
     </string-array>
 
