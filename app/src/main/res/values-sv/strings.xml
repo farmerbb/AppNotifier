@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Braden Farmer
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <string name="app_name">AppNotifier</string>
+    <string name="app_name_debug">AppNotifier (Debug)</string>
+
+    <plurals name="apps_updated_header">
+        <item quantity="one">%d app uppdaterad</item>
+        <item quantity="other">%d appar uppdaterade</item>
+    </plurals>
+
+    <plurals name="apps_updated_footer">
+        <item quantity="one">%d övrig</item>
+        <item quantity="other">%d övriga</item>
+    </plurals>
+
+    <string name="apps_updated_1">%s</string>
+    <string name="apps_updated_2">%1$s och %2$s</string>
+    <string name="apps_updated_3">%1$s, %2$s, och %3$s</string>
+    <string name="apps_updated_4">%1$s, %2$s, %3$s, och %4$s</string>
+    <string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s, och %5$s</string>
+
+    <string name="app_updates">Appuppdateringar</string>
+    <string name="app_installs">Appinstallationer</string>
+    <string name="foreground_service">Förgrundservice</string>
+
+    <string name="listening_for_app_updates_header">Lyssna efter appinstallationer &amp; uppdateringar</string>
+    <string name="listening_for_app_updates_content">Stäng av aviseringen genom att klicka här. Aviseringar visas ändå för dina appinstallationer och uppdateringar.</string>
+
+    <string name="successfully_installed">Installerad</string>
+
+    <string name="notification_types">Visa mig aviseringar för&#8230;</string>
+    <string name="notify_installs">Nya applikationsinstallationer</string>
+    <string name="notify_updates">Uppdateringar på befintliga applikationer</string>
+
+    <string name="update_sources">&#8230;när jag installerar eller uppdaterar appar från</string>
+    <string name="notify_play_store">Google Play Butik</string>
+    <string name="notify_other_sources">Övriga källor (manuellt installerade)</string>
+
+    <string name="about_header">Om AppNotifier</string>
+    <string name="about_content">AppNotifier återställer Google Plays saknade aviseringar för appuppdateringar och appinstallationer.\n\n&#169; %d Braden Farmer\n\nTryck här för att kontrollera om det finns någon uppdatering eller för att betygsätta appen!</string>
+
+    <string name="battery_optimization_title">Ignorera batterioptimeringar</string>
+    <string name="battery_optimization_summary">Kan behövas om aviseringar inte alltid visas</string>
+    <string name="notification_text_style">Textstil på aviseringen</string>
+
+    <string-array name="notification_text_style_entries">
+        <item>Original (efterlikna Play Butik)</item>
+        <item>Enhanced (visa mer detaljer)</item>
+    </string-array>
+
+</resources>
