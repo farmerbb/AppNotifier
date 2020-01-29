@@ -22,7 +22,7 @@ import android.app.Service
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.net.toUri
@@ -75,9 +75,9 @@ fun Context.startActivitySafely(intent: Intent) {
 
 fun Fragment.startActivitySafely(intent: Intent) = requireContext().startActivitySafely(intent)
 
-fun Context.getApplicationInfoSafely(packageName: String, dao: AppUpdateDAO): ApplicationInfo? {
+fun Context.getPackageInfoSafely(packageName: String, dao: AppUpdateDAO): PackageInfo? {
     return try {
-        packageManager.getApplicationInfo(packageName, 0)
+        packageManager.getPackageInfo(packageName, 0)
     } catch (e: PackageManager.NameNotFoundException) {
         GlobalScope.launch {
             dao.apply {

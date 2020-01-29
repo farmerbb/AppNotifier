@@ -20,7 +20,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
@@ -47,13 +47,14 @@ import kotlin.math.min
     private val manager: NotificationManager
 ) {
 
-    fun handleAppUpdateNotification(appInfo: ApplicationInfo) {
-        if(!pref.getBoolean("notify_updates", true) || !verifyPrefs(appInfo.packageName)) return
+    fun handleAppUpdateNotification(pkgInfo: PackageInfo) {
+        if(!pref.getBoolean("notify_updates", true) || !verifyPrefs(pkgInfo.packageName)) return
 
         val info = AppUpdateInfo(
-            packageName = appInfo.packageName,
-            label = appInfo.loadLabel(context.packageManager).toString(),
+            packageName = pkgInfo.packageName,
+            label = pkgInfo.applicationInfo.loadLabel(context.packageManager).toString(),
             updatedAt = Date(),
+            version = pkgInfo.versionName,
             isInstall = false
         )
 
@@ -66,11 +67,11 @@ import kotlin.math.min
                 insert(info)
             }
 
-            buildAppUpdateNotification(list.map { it.label }, lazy { getIcon(appInfo) })
+            buildAppUpdateNotification(list, lazy { getIcon(pkgInfo) })
         }
     }
 
-    private fun buildAppUpdateNotification(list: List<String>, icon: Lazy<Bitmap>) {
+    private fun buildAppUpdateNotification(list: List<AppUpdateInfo>, icon: Lazy<Bitmap>) {
         if(list.isEmpty()) return
 
         val header: String
@@ -79,12 +80,15 @@ import kotlin.math.min
         context.resources.apply {
             header = getQuantityString(R.plurals.apps_updated_header, list.size, list.size)
 
-            val subList = list.subList(0, min(4, list.size)).toMutableList().apply {
-                if(list.size >= 5) {
-                    val newSize = list.size - 4
-                    add(getQuantityString(R.plurals.apps_updated_footer, newSize, newSize))
-                }
-            }
+            val subList = list.map { it.label }
+                    .subList(0, min(4, list.size))
+                    .toMutableList()
+                    .apply {
+                        if(list.size >= 5) {
+                            val newSize = list.size - 4
+                            add(getQuantityString(R.plurals.apps_updated_footer, newSize, newSize))
+                        }
+                    }
 
             val name = "apps_updated_${if(list.size < 5) list.size.toString() else "other"}"
             val id = getIdentifier(name, "string", BuildConfig.APPLICATION_ID)
@@ -113,12 +117,17 @@ import kotlin.math.min
             .setContentTitle(header)
             .setContentText(content)
             .setContentIntent(pendingContentIntent)
-            .setStyle(
-                    if(isEnhanced)
-                        NotificationCompat.BigTextStyle().bigText(list.joinToString(separator = "\n"))
-                    else
-                        NotificationCompat.BigTextStyle()
-            )
+            .setStyle(NotificationCompat.BigTextStyle().also {
+                if(isEnhanced) {
+                    val text = list.joinToString("\n") { info ->
+                        info.version?.let { version ->
+                            context.getString(R.string.enhanced_template, info.label, version)
+                        } ?: info.label
+                    }
+
+                    it.bigText(text)
+                }
+            })
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
             .setAutoCancel(true)
             .setDeleteIntent(pendingDeleteIntent)
@@ -130,12 +139,12 @@ import kotlin.math.min
         manager.notify(APP_UPDATE_ID, builder.build())
     }
 
-    fun handleAppInstallNotification(appInfo: ApplicationInfo) {
-        if(!pref.getBoolean("notify_installs", true) || !verifyPrefs(appInfo.packageName)) return
+    fun handleAppInstallNotification(pkgInfo: PackageInfo) {
+        if(!pref.getBoolean("notify_installs", true) || !verifyPrefs(pkgInfo.packageName)) return
 
         val info = AppUpdateInfo(
-                packageName = appInfo.packageName,
-                label = appInfo.loadLabel(context.packageManager).toString(),
+                packageName = pkgInfo.packageName,
+                label = pkgInfo.applicationInfo.loadLabel(context.packageManager).toString(),
                 updatedAt = Date(),
                 isInstall = true
         )
@@ -146,7 +155,7 @@ import kotlin.math.min
                 insert(info)
             }
 
-            buildAppInstallNotification(info.packageName, info.label, getIcon(appInfo))
+            buildAppInstallNotification(info.packageName, info.label, getIcon(pkgInfo))
         }
     }
 
@@ -215,8 +224,8 @@ import kotlin.math.min
         return false
     }
 
-    private fun getIcon(appInfo: ApplicationInfo): Bitmap {
-        val icon = context.packageManager.getApplicationIcon(appInfo)
+    private fun getIcon(pkgInfo: PackageInfo): Bitmap {
+        val icon = context.packageManager.getApplicationIcon(pkgInfo.applicationInfo)
         return if(icon !is BitmapDrawable) {
             val width = max(icon.intrinsicWidth, 1)
             val height = max(icon.intrinsicHeight, 1)
@@ -239,8 +248,8 @@ import kotlin.math.min
             val updates = dao.getAllUpdates().reversed()
             if(updates.isEmpty()) return@launch
 
-            context.getApplicationInfoSafely(updates.first().packageName, dao)?.let {
-                buildAppUpdateNotification(updates.map { it.label }, lazy { getIcon(it) })
+            context.getPackageInfoSafely(updates.first().packageName, dao)?.let {
+                buildAppUpdateNotification(updates, lazy { getIcon(it) })
             }
         }
     }
@@ -250,7 +259,7 @@ import kotlin.math.min
 
         GlobalScope.launch {
             for(install in dao.getAllInstalls()) {
-                context.getApplicationInfoSafely(install.packageName, dao)?.let {
+                context.getPackageInfoSafely(install.packageName, dao)?.let {
                     buildAppInstallNotification(install.packageName, install.label, getIcon(it))
                 }
             }

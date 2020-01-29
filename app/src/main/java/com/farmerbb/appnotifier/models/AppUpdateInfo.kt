@@ -25,5 +25,6 @@ import java.util.*
     val packageName: String,
     val label: String,
     val updatedAt: Date,
+    val version: String? = null,
     val isInstall: Boolean
 )

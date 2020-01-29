@@ -41,7 +41,7 @@ class AppNotifierService: Service() {
         override fun onReceive(context: Context, intent: Intent) {
             val packageName = intent.dataString?.removePrefix("package:").orEmpty()
 
-            getApplicationInfoSafely(packageName, dao)?.let {
+            getPackageInfoSafely(packageName, dao)?.let {
                 if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
                     controller.handleAppUpdateNotification(it)
                 else

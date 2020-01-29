@@ -16,6 +16,8 @@
 
 <resources>
 
+    <string name="enhanced_template">%1$s (%2$s)</string>
+
     <string-array name="notification_text_style_values">
         <item>original</item>
         <item>enhanced</item>

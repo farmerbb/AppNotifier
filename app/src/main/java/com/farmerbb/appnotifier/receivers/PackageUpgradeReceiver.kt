@@ -37,7 +37,7 @@ class PackageUpgradeReceiver: BroadcastReceiver() {
         context.apply {
             initAppNotifierService()
 
-            getApplicationInfoSafely(BuildConfig.APPLICATION_ID, dao)?.let {
+            getPackageInfoSafely(BuildConfig.APPLICATION_ID, dao)?.let {
                 controller.apply {
                     handleAppUpdateNotification(it)
                     replayAppInstalls()
