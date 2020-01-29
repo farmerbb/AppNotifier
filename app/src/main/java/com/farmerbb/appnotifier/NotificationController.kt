@@ -237,6 +237,8 @@ import kotlin.math.min
 
         GlobalScope.launch {
             val updates = dao.getAllUpdates().reversed()
+            if(updates.isEmpty()) return@launch
+
             context.getApplicationInfoSafely(updates.first().packageName, dao)?.let {
                 buildAppUpdateNotification(updates.map { it.label }, lazy { getIcon(it) })
             }
