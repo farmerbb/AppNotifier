@@ -12,6 +12,8 @@ Unhappy with Google's removal of the Play Store's app update notifications? Wish
 * The app does not detect when apps are in the middle of installing, so there will be a short delay between when an app downloads and when the install or update notifications appear.
 * Notifications are generated using data from the apps on your device, not the Play Store itself. So if an app's name differs between the Play Store listing and the actual app on your device, the latter will be used.
 
+**NOTE:** There are certain situations where the Play Store will still show an app installation notification, such as when installing an app remotely via the Google Play website.  To avoid duplicate notifications, you may want to disable the Play Store's notification channel for "Updated apps" inside the Android system settings.
+
 ## Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png"
       alt="Google Play"
