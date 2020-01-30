@@ -74,11 +74,21 @@ import kotlin.math.min
     private fun buildAppUpdateNotification(list: List<AppUpdateInfo>, icon: Lazy<Bitmap>) {
         if(list.isEmpty()) return
 
+        val isEnhanced = pref.getString("notification_text_style", "original") == "enhanced"
+
         val header: String
         val content: String
 
         context.resources.apply {
             header = getQuantityString(R.plurals.apps_updated_header, list.size, list.size)
+
+            if(isEnhanced && list.size == 1) {
+                val info = list.first()
+                info.version?.let {
+                    content = getString(R.string.enhanced_template, info.label, it)
+                    return@apply
+                }
+            }
 
             val subList = list.map { it.label }
                     .subList(0, min(4, list.size))
@@ -109,8 +119,6 @@ import kotlin.math.min
 
         val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
         val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
-
-        val isEnhanced = pref.getString("notification_text_style", "original") == "enhanced"
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
