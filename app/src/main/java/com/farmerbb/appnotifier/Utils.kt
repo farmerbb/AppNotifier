@@ -24,8 +24,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.farmerbb.appnotifier.room.AppUpdateDAO
@@ -64,7 +64,7 @@ fun Context.isPlayStoreInstalled() = try {
 }
 
 fun getPlayStoreLaunchIntent(packageName: String) = Intent(Intent.ACTION_VIEW).apply {
-    data = "https://play.google.com/store/apps/details?id=$packageName".toUri()
+    data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
 }
 
 fun Context.startActivitySafely(intent: Intent) {

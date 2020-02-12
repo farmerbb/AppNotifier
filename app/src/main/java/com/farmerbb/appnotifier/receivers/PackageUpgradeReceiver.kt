@@ -18,6 +18,8 @@ package com.farmerbb.appnotifier.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+import androidx.core.content.pm.PackageInfoCompat
 import com.farmerbb.appnotifier.*
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import javax.inject.Inject
@@ -26,6 +28,7 @@ class PackageUpgradeReceiver: BroadcastReceiver() {
 
     @Inject lateinit var controller: NotificationController
     @Inject lateinit var dao: AppUpdateDAO
+    @Inject lateinit var pref: SharedPreferences
 
     init {
         AppNotifierApplication.component.inject(this)
@@ -35,13 +38,21 @@ class PackageUpgradeReceiver: BroadcastReceiver() {
         if(intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
 
         context.apply {
-            initAppNotifierService()
+            var handled = false
 
             getPackageInfoSafely(BuildConfig.APPLICATION_ID, dao)?.let {
-                controller.apply {
-                    handleAppUpdateNotification(it)
-                    replayAppInstalls()
+                val versionCode = PackageInfoCompat.getLongVersionCode(it)
+                if(versionCode > pref.getLong("version_code", 0)) {
+                    controller.handleAppUpdateNotification(it)
+                    handled = true
                 }
+            }
+
+            initAppNotifierService()
+
+            controller.apply {
+                if(!handled) replayAppUpdates()
+                replayAppInstalls()
             }
         }
     }

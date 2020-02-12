@@ -17,14 +17,12 @@ package com.farmerbb.appnotifier
 
 import android.app.PendingIntent
 import android.app.Service
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.pm.PackageInfoCompat
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import javax.inject.Inject
 
@@ -32,16 +30,24 @@ class AppNotifierService: Service() {
 
     @Inject lateinit var controller: NotificationController
     @Inject lateinit var dao: AppUpdateDAO
+    @Inject lateinit var pref: SharedPreferences
 
     init {
         AppNotifierApplication.component.inject(this)
     }
+
+    private val packages = mutableMapOf<String, Long>()
 
     private val packageAddedReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val packageName = intent.dataString?.removePrefix("package:").orEmpty()
 
             getPackageInfoSafely(packageName, dao)?.let {
+                val versionCode = PackageInfoCompat.getLongVersionCode(it)
+                if(versionCode <= packages[packageName] ?: 0) return@let
+
+                packages[packageName] = versionCode
+
                 if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false))
                     controller.handleAppUpdateNotification(it)
                 else
@@ -55,11 +61,21 @@ class AppNotifierService: Service() {
             if(intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) return
 
             val packageName = intent.dataString?.removePrefix("package:").orEmpty()
+            packages.remove(packageName)
             controller.cancelAppInstallNotification(packageName)
         }
     }
 
     override fun onCreate() {
+        val packageInfo = packageManager.getInstalledPackages(0)
+        for(info in packageInfo) {
+            val versionCode = PackageInfoCompat.getLongVersionCode(info)
+            packages[info.packageName] = versionCode
+
+            if(info.packageName == BuildConfig.APPLICATION_ID)
+                pref.edit().putLong("version_code", versionCode).apply()
+        }
+
         registerReceiver(packageAddedReceiver, IntentFilter(Intent.ACTION_PACKAGE_ADDED).apply {
             addDataScheme("package")
         })
