@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Braden Farmer
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+		http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions i
+	limitations under the License.
+-->
+
+<resources>
+	<string name="app_name">AppNotifier</string>
+	<string name="app_name_debug">AppNotifier (Debug)</string>
+
+	<plurals name="apps_updated_header">
+		<item quantity="one">%d aplikacja zaktualizowana</item>
+		<item quantity="few">%d aplikacje zaktualizowane</item>
+		<item quantity="many">%d aplikacji zaktualizowanych</item>
+	</plurals>
+
+	<plurals name="apps_updated_footer">
+		<item quantity="one">%d inny</item>
+		<item quantity="few">%d inne</item>
+		<item quantity="many">%d innych</item>
+	</plurals>
+
+	<string name="apps_updated_1">%s</string>
+	<string name="apps_updated_2">%1$s i %2$s</string>
+	<string name="apps_updated_3">%1$s, %2$s i %3$s</string>
+	<string name="apps_updated_4">%1$s, %2$s, %3$s i %4$s</string>
+	<string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s i %5$s</string>
+
+	<string name="app_updates">Aktualizacja aplikacji</string>
+	<string name="app_installs">Instalacje aplikacji</string>
+	<string name="foreground_service">Usługi pierwszego planu</string>
+
+	<string name="listening_for_app_updates_header">Monitoruje instalacje oraz aktualizacje aplikacji.</string>
+	<string name="listening_for_app_updates_content">Możesz wyłączyć to powiadomienie, klikając tutaj. Powiadomienia będą nadal pojawiać się w przypadku instalacji aplikacji i aktualizacji.</string>
+
+	<string name="successfully_installed">Pomyślnie zainstalowano</string>
+
+	<string name="notification_types">Pokaż mi powiadomienia dotyczące&#8230;</string>
+	<string name="notify_installs">Instalacji nowych aplikacji</string>
+	<string name="notify_updates">Aktualizacji posiadanych aplikacji</string>
+
+	<string name="update_sources">&#8230;kiedy instaluję lub aktualizuję aplikacje z</string>
+	<string name="notify_play_store">Sklep Google Play</string>
+	<string name="notify_other_sources">Inne źródła</string>
+
+	<string name="about_header">O AppNotifier</string>
+	<string name="about_content">AppNotifier przywraca powiadomienia o aktualizacjach oraz instalacjach z Sklepu Google Play.\n\n&#169; %d Braden Farmer\n\nKliknij tutaj, aby sprawdzić dostępność aktualizacji lub zostawić ocenę!</string>
+
+	<string name="battery_optimization_title">Ignoruj ​​optymalizację baterii</string>
+	<string name="battery_optimization_summary">Może być potrzebne, jeśli powiadomienia nie pojawiają się konsekwentnie</string>
+	<string name="notification_text_style">Styl tekstu powiadomienia</string>
+
+	<string-array name="notification_text_style_entries">
+		<item>Oryginalne (imituj Sklep Google Play)</item>
+		<item>Ulepszone (pokaż więcej informacji)</item>
+	</string-array>
+
+</resources>
