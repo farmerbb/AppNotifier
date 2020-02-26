@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Braden Farmer
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <string name="app_name">AppNotifier</string>
+    <string name="app_name_debug">AppNotifier</string>
+
+    <plurals name="apps_updated_header">
+        <item quantity="one">앱 %d개 업데이트됨</item>
+        <item quantity="other">앱 %d개 업데이트됨</item>
+    </plurals>
+
+    <plurals name="apps_updated_footer">
+        <item quantity="one">외 %d개</item>
+        <item quantity="other">외 %d개</item>
+    </plurals>
+
+    <string name="apps_updated_1">%s</string>
+    <string name="apps_updated_2">%1$s, %2$s</string>
+    <string name="apps_updated_3">%1$s, %2$s, %3$s</string>
+    <string name="apps_updated_4">%1$s, %2$s, %3$s, %4$s</string>
+    <string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s, %5$s</string>
+
+    <string name="app_updates">앱 업데이트</string>
+    <string name="app_installs">앱 설치</string>
+    <string name="foreground_service">Foreground service</string>
+
+    <string name="listening_for_app_updates_header">앱 설치 &amp; 업데이트 알림을 표시합니다.</string>
+    <string name="listening_for_app_updates_content">이 알림을 꺼주세요. 업데이트, 설치 알림은 계속 표시됩니다.</string>
+
+    <string name="successfully_installed">설치하였습니다.</string>
+
+    <string name="notification_types">알림 표시&#8230;</string>
+    <string name="notify_installs">새로운 앱 설치</string>
+    <string name="notify_updates">기존 앱 업데이트</string>
+
+    <string name="update_sources">&#8230;앱 설치나 업데이트를 할 경로</string>
+    <string name="notify_play_store">Google Play 스토어</string>
+    <string name="notify_other_sources">다른 경로 (sideloaded)</string>
+
+    <string name="about_header">About</string>
+    <string name="about_content">해당 앱은 Google Play 스토어의 앱 설치, 업데이트 알림을 표시합니다.\n\n&#169; %d Braden Farmer\nTranslated by ChoiWooYoung \n여기를 눌러 앱 업데이트 및 평가를 해주세요!</string>
+
+    <string name="battery_optimization_title">배터리 사용량 최적화 끄기</string>
+    <string name="battery_optimization_summary">알림이 정상적으로 작동하지 않을 경우 사용해주세요.</string>
+    <string name="notification_text_style">알림 스타일</string>
+
+    <string-array name="notification_text_style_entries">
+        <item>기본 알림 (Play 스토어 모방)</item>
+        <item>향상된 알림 (더 자세함)</item>
+    </string-array>
+
+</resources>
