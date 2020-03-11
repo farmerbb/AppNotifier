@@ -23,7 +23,6 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.provider.Settings
 import android.view.View
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
@@ -62,16 +61,6 @@ class SettingsFragment: PreferenceFragmentCompat() {
                 startActivitySafely(intent)
                 true
             }
-        }
-
-        findPreference<Preference>("battery_optimization")?.apply {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                setOnPreferenceClickListener {
-                    startActivitySafely(Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS))
-                    true
-                }
-            } else
-                preferenceScreen.removePreference(this)
         }
 
         findPreference<ListPreference>("notification_text_style")?.apply {

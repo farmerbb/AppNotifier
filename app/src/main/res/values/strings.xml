@@ -54,8 +54,6 @@
     <string name="about_header">About AppNotifier</string>
     <string name="about_content">AppNotifier restores Google Play\'s missing app update &amp; app install notifications.\n\n&#169; %d Braden Farmer\n\nClick here to check for updates or leave a rating!</string>
 
-    <string name="battery_optimization_title">Ignore battery optimizations</string>
-    <string name="battery_optimization_summary">Might be needed if notifications don\'t appear consistently</string>
     <string name="notification_text_style">Notification text style</string>
 
     <string-array name="notification_text_style_entries">

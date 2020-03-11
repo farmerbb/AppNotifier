@@ -58,14 +58,8 @@
 
     <PreferenceCategory
         android:key="additional_settings"
-        app:initialExpandedChildrenCount="0"
+        app:initialExpandedChildrenCount="1"
         app:iconSpaceReserved="false">
-
-        <Preference
-            android:key="battery_optimization"
-            android:title="@string/battery_optimization_title"
-            android:summary="@string/battery_optimization_summary"
-            app:iconSpaceReserved="false"/>
 
         <ListPreference
             android:key="notification_text_style"

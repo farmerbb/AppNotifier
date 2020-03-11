@@ -56,8 +56,6 @@
 	<string name="about_header">O AppNotifier</string>
 	<string name="about_content">AppNotifier przywraca powiadomienia o aktualizacjach oraz instalacjach z Sklepu Google Play.\n\n&#169; %d Braden Farmer\n\nKliknij tutaj, aby sprawdzić dostępność aktualizacji lub zostawić ocenę!</string>
 
-	<string name="battery_optimization_title">Ignoruj ​​optymalizację baterii</string>
-	<string name="battery_optimization_summary">Może być potrzebne, jeśli powiadomienia nie pojawiają się konsekwentnie</string>
 	<string name="notification_text_style">Styl tekstu powiadomienia</string>
 
 	<string-array name="notification_text_style_entries">

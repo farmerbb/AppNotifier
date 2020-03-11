@@ -51,8 +51,6 @@
     <string name="about_header">Om AppNotifier</string>
     <string name="about_content">AppNotifier återställer Google Plays saknade aviseringar för appuppdateringar och appinstallationer.\n\n&#169; %d Braden Farmer\n\nTryck här för att kontrollera om det finns någon uppdatering eller för att betygsätta appen!</string>
 
-    <string name="battery_optimization_title">Ignorera batterioptimeringar</string>
-    <string name="battery_optimization_summary">Kan behövas om aviseringar inte alltid visas</string>
     <string name="notification_text_style">Textstil på aviseringen</string>
 
     <string-array name="notification_text_style_entries">
