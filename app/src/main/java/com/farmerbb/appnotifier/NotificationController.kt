@@ -24,6 +24,7 @@ import android.content.pm.PackageInfo
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.farmerbb.appnotifier.models.AppUpdateInfo
@@ -199,18 +200,19 @@ import kotlin.math.min
             .setGroup(APP_INSTALL_GROUP)
             .setPriority(NotificationCompat.PRIORITY_LOW)
 
-        val groupBuilder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.app_updated)
-            .setGroup(APP_INSTALL_GROUP)
-            .setGroupSummary(true)
-            .setAutoCancel(true)
-            .setStyle(NotificationCompat.BigTextStyle())
-            .setPriority(NotificationCompat.PRIORITY_LOW)
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            val groupBuilder = NotificationCompat.Builder(context, channelId)
+                    .setSmallIcon(R.drawable.app_updated)
+                    .setGroup(APP_INSTALL_GROUP)
+                    .setGroupSummary(true)
+                    .setAutoCancel(true)
+                    .setStyle(NotificationCompat.BigTextStyle())
+                    .setPriority(NotificationCompat.PRIORITY_LOW)
 
-        manager.apply {
-            notify(APP_INSTALL_ID, groupBuilder.build())
-            notify(code, builder.build())
+            manager.notify(APP_INSTALL_ID, groupBuilder.build())
         }
+
+        manager.notify(code, builder.build())
     }
 
     fun cancelAppInstallNotification(packageName: String) {
