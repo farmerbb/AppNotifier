@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="apps_updated_footer">
+        <item quantity="other">%d altre app</item>
+        <item quantity="one">%d altra app</item>
+    </plurals>
+    <plurals name="apps_updated_header">
+        <item quantity="other">%d app aggiornate</item>
+        <item quantity="one">%d app aggiornata</item>
+    </plurals>
+</resources>
