@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about_content">"AppNotifier ripristina le notifiche del Google Play Store su aggiornamento &amp; installazione app.
+
+© %d Braden Farmer
+
+Clicca qui per controllare la presenza di aggiornamenti o per una recensione!"</string>
+    <string name="about_header">Su AppNotifier</string>
+    <string name="app_installs">App installate</string>
+    <string name="app_name">AppNotifier</string>
+    <string name="app_name_debug">AppNotifier (Debug)</string>
+    <string name="app_updates">App aggiornate</string>
+    <string name="apps_updated_1">%s</string>
+    <string name="apps_updated_2">%1$s e %2$s</string>
+    <string name="apps_updated_3">%1$s, %2$s e %3$s</string>
+    <string name="apps_updated_4">%1$s, %2$s, %3$s e %4$s</string>
+    <string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s e %5$s</string>
+    <string name="copy">Copia</string>
+    <string name="enhanced_template">%1$s (%2$s)</string>
+    <string name="expand_button_title">Avanzato</string>
+    <string name="foreground_service">Servizio in primo piano</string>
+    <string name="listening_for_app_updates_content">Disattiva questa notifica cliccando qui. Le notifiche verranno visualizzate comunque per installazione e aggiornamento app</string>
+    <string name="listening_for_app_updates_header">In ascolto di installazione &amp; aggiornamento app</string>
+    <string name="not_set">Non impostato</string>
+    <string name="notification_text_style">Stile testo notifiche</string>
+    <string name="notification_types">Notificami…</string>
+    <string name="notify_installs">Installazione di nuove app</string>
+    <string name="notify_other_sources">Altre fonti (trasferimento locale)</string>
+    <string name="notify_play_store">Google Play Store</string>
+    <string name="notify_updates">Aggiornamenti di app esistenti</string>
+    <string name="preference_copied">\"%1$s\" copiato negli appunti</string>
+    <string name="search_menu_title">Cerca</string>
+    <string name="successfully_installed">Installato con successo</string>
+    <string name="summary_collapsed_preference_list">%1$s, %2$s</string>
+    <string name="update_sources">…quando installo o aggiorno app da</string>
+</resources>
