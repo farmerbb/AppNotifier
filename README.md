@@ -36,3 +36,4 @@ Once all the prerequisites are met, make sure that the `ANDROID_HOME` environmen
 * Sopor (Swedish translation)
 * DanonekTM (Polish translation)
 * ChoiWooYoung (Korean translation)
+* Vladi69 (Italian translation)
