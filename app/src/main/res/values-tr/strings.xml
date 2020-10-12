@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="about_content">"AppNotifier, Play Store ve diğer kaynaklardan yüklenen ve güncelleştirilen uygulamaları kullanıcıya bildirir.
+
+© %d Braden Farmer
+
+Güncellemeleri kontrol etmek ve bizi değerlendirmek için lütfen burayı tıklayın!"</string>
+<string name="about_header">AppNotifier Hakkında</string>
+<string name="app_installs">Uygulama yüklemeleri</string>
+<string name="app_name">AppNotifier</string>
+<string name="app_name_debug">AppNotifier (Hata Ayıklama)</string>
+<string name="app_updates">Uygulama güncellemeleri</string>
+<string name="apps_updated_1">%s</string>
+<string name="apps_updated_2">%1$s ve %2$s</string>
+<string name="apps_updated_3">%1$s, %2$s ve %3$s</string>
+<string name="apps_updated_4">%1$s, %2$s, %3$s ve %4$s</string>
+<string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s ve %5$s</string>
+<string name="enhanced_template">%1$s (%2$s)</string>
+<string name="foreground_service">Ön plan hizmeti</string>
+<string name="listening_for_app_updates_content">Burayı tıklayarak bu bildirimi kapatabilirsiniz. Uygulama yüklemeleriniz ve güncellemeleriniz için bildirimler görünmeye devam edeceksiniz.</string>
+<string name="listening_for_app_updates_header">Uygulama yüklemeleri &amp; Güncellemelerini takip et</string>
+<string name="notification_text_style">Bildirim metni stili</string>
+<string name="notification_types">Bildirimleri Göster</string>
+<string name="notify_installs">Uygulama yüklemeleri</string>
+<string name="notify_other_sources">Diğer tüm kaynaklardan</string>
+<string name="notify_play_store">Play Store mağazasından</string>
+<string name="notify_updates">Uygulama güncellemeleri</string>
+<string name="successfully_installed">Başarıyla yüklendi</string>
+<string name="update_sources">Yükleme ve Güncelleme Kaynakları</string>
+
+    <plurals name="apps_updated_header">
+        <item quantity="one">%d app updated</item>
+        <item quantity="other">%d apps updated</item>
+    </plurals>
+
+    <plurals name="apps_updated_footer">
+        <item quantity="one">%d other</item>
+        <item quantity="other">%d others</item>
+    </plurals>
+
+    <string-array name="notification_text_style_entries">
+        <item>Original (mimic Play Store)</item>
+        <item>Enhanced (show more detail)</item>
+    </string-array>
+
+</resources>
