@@ -19,32 +19,27 @@ import android.content.ActivityNotFoundException
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.farmerbb.appnotifier.AppNotifierApplication
 import com.farmerbb.appnotifier.PLAY_STORE_PACKAGE
 import com.farmerbb.appnotifier.isPlayStoreInstalled
 import com.farmerbb.appnotifier.room.AppUpdateDAO
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UpdateNotificationClickedReceiver: BroadcastReceiver() {
 
     @Inject lateinit var dao: AppUpdateDAO
 
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
-
     override fun onReceive(context: Context, intent: Intent) {
-        context.apply {
-            if(!isPlayStoreInstalled()) return@apply
-
+        if(context.isPlayStoreInstalled()) {
             try {
-                startActivity(Intent("com.google.android.finsky.VIEW_MY_DOWNLOADS").apply {
+                context.startActivity(Intent("com.google.android.finsky.VIEW_MY_DOWNLOADS").apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 })
             } catch (e: ActivityNotFoundException) {
-                startActivity(packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE))
+                context.startActivity(context.packageManager.getLaunchIntentForPackage(PLAY_STORE_PACKAGE))
             }
         }
 

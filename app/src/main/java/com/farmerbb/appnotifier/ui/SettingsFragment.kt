@@ -30,18 +30,16 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.farmerbb.appnotifier.*
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class SettingsFragment: PreferenceFragmentCompat() {
 
     @Inject lateinit var pref: SharedPreferences
     @Inject lateinit var manager: NotificationManager
     @Inject lateinit var controller: NotificationController
-
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)

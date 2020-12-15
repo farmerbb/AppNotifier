@@ -18,18 +18,15 @@ package com.farmerbb.appnotifier.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.farmerbb.appnotifier.AppNotifierApplication
 import com.farmerbb.appnotifier.NotificationController
 import com.farmerbb.appnotifier.initAppNotifierService
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class BootReceiver: BroadcastReceiver() {
 
     @Inject lateinit var controller: NotificationController
-
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         if(intent.action != Intent.ACTION_BOOT_COMPLETED) return

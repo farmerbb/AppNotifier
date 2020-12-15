@@ -18,20 +18,17 @@ package com.farmerbb.appnotifier.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.farmerbb.appnotifier.AppNotifierApplication
 import com.farmerbb.appnotifier.PACKAGE_NAME
 import com.farmerbb.appnotifier.room.AppUpdateDAO
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class InstallNotificationDismissedReceiver: BroadcastReceiver() {
 
     @Inject lateinit var dao: AppUpdateDAO
-
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         val packageName = intent.getStringExtra(PACKAGE_NAME).orEmpty()

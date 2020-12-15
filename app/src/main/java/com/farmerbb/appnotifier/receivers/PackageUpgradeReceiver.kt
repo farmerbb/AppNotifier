@@ -22,17 +22,15 @@ import android.content.SharedPreferences
 import androidx.core.content.pm.PackageInfoCompat
 import com.farmerbb.appnotifier.*
 import com.farmerbb.appnotifier.room.AppUpdateDAO
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class PackageUpgradeReceiver: BroadcastReceiver() {
 
     @Inject lateinit var controller: NotificationController
     @Inject lateinit var dao: AppUpdateDAO
     @Inject lateinit var pref: SharedPreferences
-
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
 
     override fun onReceive(context: Context, intent: Intent) {
         if(intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return

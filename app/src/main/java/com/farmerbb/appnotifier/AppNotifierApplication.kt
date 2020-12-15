@@ -16,19 +16,6 @@
 package com.farmerbb.appnotifier
 
 import android.app.Application
-import com.farmerbb.appnotifier.dagger.AppNotifierComponent
-import com.farmerbb.appnotifier.dagger.AppNotifierModule
-import com.farmerbb.appnotifier.dagger.DaggerAppNotifierComponent
+import dagger.hilt.android.HiltAndroidApp
 
-class AppNotifierApplication: Application() {
-
-    init {
-        component = DaggerAppNotifierComponent.builder()
-            .appNotifierModule(AppNotifierModule(this))
-            .build()
-    }
-
-    companion object {
-        lateinit var component: AppNotifierComponent
-    }
-}
+@HiltAndroidApp class AppNotifierApplication: Application()

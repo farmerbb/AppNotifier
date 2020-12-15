@@ -24,18 +24,20 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.farmerbb.appnotifier.room.AppUpdateDatabase
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
-@Module class AppNotifierModule(private val context: Context) {
-    @Provides @Singleton fun provideContext() = context
+@InstallIn(SingletonComponent::class)
+@Module class AppNotifierModule {
 
-    @Provides @Singleton fun provideSharedPreferences(context: Context)
+    @Provides fun provideSharedPreferences(@ApplicationContext context: Context)
             = PreferenceManager.getDefaultSharedPreferences(context)
 
-    @Provides @Singleton fun provideNotificationManager(context: Context)
+    @Provides fun provideNotificationManager(@ApplicationContext context: Context)
             = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-    @Provides @Singleton fun provideDatabase(context: Context)
+    @Provides fun provideDatabase(@ApplicationContext context: Context)
             = Room.databaseBuilder(context, AppUpdateDatabase::class.java, "app_updates")
             .addMigrations(object: Migration(1, 2) {
                 override fun migrate(database: SupportSQLiteDatabase) = with(database) {
@@ -45,5 +47,5 @@ import javax.inject.Singleton
             })
             .build()
 
-    @Provides @Singleton fun provideDAO(db: AppUpdateDatabase) = db.getDAO()
+    @Provides fun provideDAO(db: AppUpdateDatabase) = db.getDAO()
 }

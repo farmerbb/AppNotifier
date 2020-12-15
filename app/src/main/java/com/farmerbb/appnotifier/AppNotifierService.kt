@@ -24,17 +24,15 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.pm.PackageInfoCompat
 import com.farmerbb.appnotifier.room.AppUpdateDAO
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class AppNotifierService: Service() {
 
     @Inject lateinit var controller: NotificationController
     @Inject lateinit var dao: AppUpdateDAO
     @Inject lateinit var pref: SharedPreferences
-
-    init {
-        AppNotifierApplication.component.inject(this)
-    }
 
     private val packages = mutableMapOf<String, Long>()
 
@@ -67,6 +65,8 @@ class AppNotifierService: Service() {
     }
 
     override fun onCreate() {
+        super.onCreate()
+
         val packageInfo = packageManager.getInstalledPackages(0)
         for(info in packageInfo) {
             val versionCode = PackageInfoCompat.getLongVersionCode(info)

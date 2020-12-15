@@ -33,15 +33,16 @@ import com.farmerbb.appnotifier.receivers.InstallNotificationDismissedReceiver
 import com.farmerbb.appnotifier.receivers.UpdateNotificationClickedReceiver
 import com.farmerbb.appnotifier.receivers.UpdateNotificationDismissedReceiver
 import com.farmerbb.appnotifier.room.AppUpdateDAO
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlin.math.max
 import kotlin.math.min
 
-@Singleton class NotificationController @Inject constructor(
+class NotificationController @Inject constructor(
+    @ApplicationContext
     private val context: Context,
     private val pref: SharedPreferences,
     private val dao: AppUpdateDAO,
