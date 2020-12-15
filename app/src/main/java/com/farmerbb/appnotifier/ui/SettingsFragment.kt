@@ -23,6 +23,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.preference.CheckBoxPreference
 import androidx.preference.ListPreference
@@ -97,7 +98,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
     private fun setListeners(vararg keys: String) {
         for(key in keys) {
             findPreference<CheckBoxPreference>(key)?.setOnPreferenceChangeListener { _, _ ->
-                Handler().post {
+                Handler(Looper.getMainLooper()).post {
                     requireContext().initAppNotifierService()
                 }
 

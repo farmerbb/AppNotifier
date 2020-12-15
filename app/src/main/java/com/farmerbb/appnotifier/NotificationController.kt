@@ -226,6 +226,7 @@ import kotlin.math.min
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun verifyPrefs(packageName: String): Boolean {
         val fromPlayStore = context.packageManager.getInstallerPackageName(packageName) == PLAY_STORE_PACKAGE
         if(pref.getBoolean("notify_play_store", true) && fromPlayStore) return true
