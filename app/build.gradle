@@ -1,12 +1,11 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 ext {
     coroutines_version = "1.4.2"
-    room_version = "2.2.5"
+    room_version = "2.2.6"
 }
 
 repositories {
@@ -15,15 +14,15 @@ repositories {
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.farmerbb.appnotifier"
 
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 8
-        versionName "1.2.2"
+        versionCode 9
+        versionName "1.2.3"
 
         resConfigs "en", "fr", "de", "sv", "pl", "ko", "it", "tr"
         vectorDrawables.generatedDensities = []

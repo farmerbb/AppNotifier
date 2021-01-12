@@ -4,8 +4,4 @@
         <item>Originale (imita Play Store)</item>
         <item>Migliorato (con più dettagli)</item>
     </string-array>
-    <string-array name="notification_text_style_values">
-        <item>originale</item>
-        <item>migliorato</item>
-    </string-array>
 </resources>

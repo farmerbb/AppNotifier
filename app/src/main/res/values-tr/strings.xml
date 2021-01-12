@@ -15,7 +15,6 @@ Güncellemeleri kontrol etmek ve bizi değerlendirmek için lütfen burayı tık
 <string name="apps_updated_3">%1$s, %2$s ve %3$s</string>
 <string name="apps_updated_4">%1$s, %2$s, %3$s ve %4$s</string>
 <string name="apps_updated_other">%1$s, %2$s, %3$s, %4$s ve %5$s</string>
-<string name="enhanced_template">%1$s (%2$s)</string>
 <string name="foreground_service">Ön plan hizmeti</string>
 <string name="listening_for_app_updates_content">Burayı tıklayarak bu bildirimi kapatabilirsiniz. Uygulama yüklemeleriniz ve güncellemeleriniz için bildirimler görünmeye devam edeceksiniz.</string>
 <string name="listening_for_app_updates_header">Uygulama yüklemeleri &amp; Güncellemelerini takip et</string>
