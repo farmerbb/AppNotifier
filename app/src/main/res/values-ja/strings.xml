@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2020 Braden Farmer
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources>
+    <string name="app_name">AppNotifier</string>
+    <string name="app_name_debug">AppNotifier (Debug)</string>
+
+    <plurals name="apps_updated_header">
+        <item quantity="one">%d 個のアプリを更新しました</item>
+        <item quantity="other">%d 個のアプリを更新しました</item>
+    </plurals>
+
+    <plurals name="apps_updated_footer">
+        <item quantity="one">他 %d 件</item>
+        <item quantity="other">他 %d 件</item>
+    </plurals>
+
+    <string name="apps_updated_1">%s</string>
+    <string name="apps_updated_2">%1$s、%2$s</string>
+    <string name="apps_updated_3">%1$s、%2$s、%3$s</string>
+    <string name="apps_updated_4">%1$s、%2$s、%3$s、%4$s</string>
+    <string name="apps_updated_other">%1$s、%2$s、%3$s、%4$s、%5$s</string>
+
+    <string name="app_updates">アプリの更新</string>
+    <string name="app_installs">アプリのインストール</string>
+    <string name="foreground_service">フォアグラウンド サービス</string>
+
+    <string name="listening_for_app_updates_header">アプリのインストールと更新を監視しています</string>
+    <string name="listening_for_app_updates_content">ここをクリックしてこの通知をオフにできます。アプリのインストールと更新の通知は引き続き表示されます。</string>
+
+    <string name="successfully_installed">インストール成功</string>
+
+    <string name="notification_types">通知を表示する対象</string>
+    <string name="notify_installs">新規アプリのインストール</string>
+    <string name="notify_updates">既存アプリのアップデート</string>
+
+    <string name="update_sources">通知を表示するインストール元</string>
+    <string name="notify_play_store">Google Play ストア</string>
+    <string name="notify_other_sources">その他の提供元（サイドローディング）</string>
+
+    <string name="about_header">AppNotifier について</string>
+    <string name="about_content">AppNotifier は廃止された Google Play のアプリのアップデートとインストールの通知を取り戻します。\n\n&#169; %d Braden Farmer\n\nここをクリックして更新の確認とレビューの投稿ができます！</string>
+
+    <string name="notification_text_style">通知テキストのスタイル</string>
+
+    <string-array name="notification_text_style_entries">
+        <item>オリジナル（Play ストアと同様）</item>
+        <item>拡張（詳細を表示）</item>
+    </string-array>
+
+</resources>
