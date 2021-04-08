@@ -38,3 +38,4 @@ Once all the prerequisites are met, make sure that the `ANDROID_HOME` environmen
 * ChoiWooYoung (Korean translation)
 * Vladi69 (Italian translation)
 * Fahrettin Vardım (Turkish translation)
+* redpizza (Japanese translation)
