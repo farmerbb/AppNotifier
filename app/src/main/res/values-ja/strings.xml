@@ -41,7 +41,7 @@
     <string name="listening_for_app_updates_header">アプリのインストールと更新を監視しています</string>
     <string name="listening_for_app_updates_content">ここをクリックしてこの通知をオフにできます。アプリのインストールと更新の通知は引き続き表示されます。</string>
 
-    <string name="successfully_installed">インストール成功</string>
+    <string name="successfully_installed">インストールが完了しました</string>
 
     <string name="notification_types">通知を表示する対象</string>
     <string name="notify_installs">新規アプリのインストール</string>
