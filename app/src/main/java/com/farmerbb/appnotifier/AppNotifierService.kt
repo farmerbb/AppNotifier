@@ -94,7 +94,7 @@ class AppNotifierService: Service() {
             putExtra(Settings.EXTRA_CHANNEL_ID, channelId)
         }
 
-        val pendingContentIntent = PendingIntent.getActivity(this, 0, contentIntent, FLAGS)
+        val pendingContentIntent = PendingIntent.getActivity(this, 0, contentIntent, getPendingIntentFlags())
 
         val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_info_outline_black_24dp)

@@ -14,8 +14,8 @@
  */
 
 package com.farmerbb.appnotifier
-
 import android.app.NotificationManager
+
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -119,8 +119,8 @@ class NotificationController @Inject constructor(
             setPackage(BuildConfig.APPLICATION_ID)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
-        val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
+        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, getPendingIntentFlags())
+        val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, getPendingIntentFlags())
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
@@ -185,8 +185,8 @@ class NotificationController @Inject constructor(
             putExtra(PACKAGE_NAME, packageName)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, code, contentIntent, FLAGS)
-        val pendingDeleteIntent = PendingIntent.getBroadcast(context, code, deleteIntent, FLAGS)
+        val pendingContentIntent = PendingIntent.getBroadcast(context, code, contentIntent, getPendingIntentFlags())
+        val pendingDeleteIntent = PendingIntent.getBroadcast(context, code, deleteIntent, getPendingIntentFlags())
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)
