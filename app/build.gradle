@@ -15,8 +15,7 @@ java {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "33.0.1"
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.farmerbb.appnotifier"
@@ -25,8 +24,8 @@ android {
         targetSdkVersion 33
         versionCode 9
         versionName "1.2.3"
+        resourceConfigurations += ['en', 'fr', 'de', 'sv', 'pl', 'ko', 'it', 'tr']
 
-        resConfigs "en", "fr", "de", "sv", "pl", "ko", "it", "tr"
         vectorDrawables.generatedDensities = []
 
         buildConfigField "long", "TIMESTAMP", "${System.currentTimeMillis()}L"
@@ -74,10 +73,11 @@ android {
             }
         }
     }
-
-    lintOptions {
+    namespace 'com.farmerbb.appnotifier'
+    lint {
         abortOnError false
     }
+
 }
 
 dependencies {
