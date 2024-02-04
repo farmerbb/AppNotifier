@@ -22,6 +22,10 @@
 
     <uses-permission-sdk-23 android:name="android.permission.QUERY_ALL_PACKAGES" />
 
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"
+        android:minSdkVersion="34" />
+
     <application
         android:name=".AppNotifierApplication"
         android:allowBackup="true"
@@ -42,7 +46,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AppNotifierService" />
+        <service
+            android:name=".AppNotifierService"
+            android:exported="true"
+            android:foregroundServiceType="specialUse" />
 
         <receiver android:name=".receivers.InstallNotificationClickedReceiver" />
         <receiver android:name=".receivers.InstallNotificationDismissedReceiver" />

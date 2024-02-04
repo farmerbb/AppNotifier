@@ -185,8 +185,8 @@ class NotificationController @Inject constructor(
             putExtra(PACKAGE_NAME, packageName)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, code, contentIntent, getPendingIntentFlags())
-        val pendingDeleteIntent = PendingIntent.getBroadcast(context, code, deleteIntent, getPendingIntentFlags())
+        val pendingContentIntent = PendingIntent.getActivity(context, code, contentIntent, getPendingIntentFlags())
+        val pendingDeleteIntent = PendingIntent.getActivity(context, code, deleteIntent, getPendingIntentFlags())
 
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.app_updated)

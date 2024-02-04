@@ -64,7 +64,11 @@ fun Context.isPlayStoreInstalled() = try {
 }
 
 fun getPlayStoreLaunchIntent(packageName: String) = Intent(Intent.ACTION_VIEW).apply {
-    data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    try {
+        data = Uri.parse("market://details?id=$packageName")
+    } catch (e: ActivityNotFoundException) {
+        data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    }
 }
 
 fun Context.startActivitySafely(intent: Intent) {

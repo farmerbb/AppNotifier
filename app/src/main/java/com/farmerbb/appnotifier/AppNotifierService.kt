@@ -18,6 +18,7 @@ package com.farmerbb.appnotifier
 import android.app.PendingIntent
 import android.app.Service
 import android.content.*
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
@@ -105,7 +106,12 @@ class AppNotifierService: Service() {
             .setColor(ContextCompat.getColor(this, R.color.colorPrimary))
             .setPriority(NotificationCompat.PRIORITY_MIN)
 
-        startForeground(FOREGROUND_SERVICE_ID, builder.build())
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            startForeground(FOREGROUND_SERVICE_ID, builder.build())
+        } else {
+            startForeground(FOREGROUND_SERVICE_ID, builder.build(),
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+        }
     }
 
     override fun onDestroy() {

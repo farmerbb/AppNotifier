@@ -1,27 +1,32 @@
 apply plugin: 'com.android.application'
+apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 
 ext {
-    coroutines_version = "1.6.4"
-    room_version = "2.5.0"
+    coroutines_version = "1.7.3"
+    room_version = "2.6.1"
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
 android {
-    compileSdk 33
+    namespace 'com.farmerbb.appnotifier'
+    compileSdk 34
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         applicationId "com.farmerbb.appnotifier"
 
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode 9
         versionName "1.2.3"
         resourceConfigurations += ['en', 'fr', 'de', 'sv', 'pl', 'ko', 'it', 'tr']
@@ -38,8 +43,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 
     signingConfigs {
@@ -73,11 +78,11 @@ android {
             }
         }
     }
-    namespace 'com.farmerbb.appnotifier'
+
+
     lint {
         abortOnError false
     }
-
 }
 
 dependencies {
@@ -86,7 +91,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
