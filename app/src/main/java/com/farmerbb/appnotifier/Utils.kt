@@ -64,7 +64,11 @@ fun Context.isPlayStoreInstalled() = try {
 }
 
 fun getPlayStoreLaunchIntent(packageName: String) = Intent(Intent.ACTION_VIEW).apply {
-    data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    try {
+        data = Uri.parse("market://details?id=$packageName")
+    } catch (e: ActivityNotFoundException) {
+        data = Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+    }
 }
 
 fun Context.startActivitySafely(intent: Intent) {
@@ -90,6 +94,13 @@ fun Context.getPackageInfoSafely(packageName: String, dao: AppUpdateDAO): Packag
     }
 }
 
+fun getPendingIntentFlags(): Int {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        return PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    }
+    return PendingIntent.FLAG_UPDATE_CURRENT
+}
+
 const val FOREGROUND_SERVICE_ID = Integer.MAX_VALUE
 const val APP_UPDATE_ID = Integer.MAX_VALUE - 1
 const val APP_INSTALL_ID = Integer.MAX_VALUE - 2
@@ -97,5 +108,3 @@ const val APP_INSTALL_ID = Integer.MAX_VALUE - 2
 const val APP_INSTALL_GROUP = "app_install_group"
 const val PACKAGE_NAME = "package_name"
 const val PLAY_STORE_PACKAGE = "com.android.vending"
-
-const val FLAGS = PendingIntent.FLAG_UPDATE_CURRENT

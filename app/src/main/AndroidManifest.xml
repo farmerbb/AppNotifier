@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright 2020 Braden Farmer
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright 2020 Braden Farmer
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,12 +14,17 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.farmerbb.appnotifier">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <uses-permission-sdk-23 android:name="android.permission.QUERY_ALL_PACKAGES" />
+
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE"
+        android:minSdkVersion="34" />
 
     <application
         android:name=".AppNotifierApplication"
@@ -33,6 +37,7 @@
 
         <activity
             android:name=".ui.MainActivity"
+            android:exported="true"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,19 +46,22 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AppNotifierService"/>
+        <service
+            android:name=".AppNotifierService"
+            android:exported="true"
+            android:foregroundServiceType="specialUse" />
 
-        <receiver android:name=".receivers.InstallNotificationClickedReceiver"/>
-        <receiver android:name=".receivers.InstallNotificationDismissedReceiver"/>
-        <receiver android:name=".receivers.UpdateNotificationClickedReceiver"/>
-        <receiver android:name=".receivers.UpdateNotificationDismissedReceiver"/>
+        <receiver android:name=".receivers.InstallNotificationClickedReceiver" />
+        <receiver android:name=".receivers.InstallNotificationDismissedReceiver" />
+        <receiver android:name=".receivers.UpdateNotificationClickedReceiver" />
+        <receiver android:name=".receivers.UpdateNotificationDismissedReceiver" />
 
         <receiver
             android:name=".receivers.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
@@ -62,7 +70,7 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 
