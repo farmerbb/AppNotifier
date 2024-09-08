@@ -21,6 +21,8 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission-sdk-23 android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <uses-permission-sdk-23 android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission-sdk-23 android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:name=".AppNotifierApplication"
@@ -33,7 +35,8 @@
 
         <activity
             android:name=".ui.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,7 +44,13 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".AppNotifierService"/>
+        <service
+            android:name=".AppNotifierService"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="This foreground service is required because the app\'s core functionality relies on broadcast receivers that listen to app install events, which are hosted inside of a service instead of an activity"/>
+        </service>
 
         <receiver android:name=".receivers.InstallNotificationClickedReceiver"/>
         <receiver android:name=".receivers.InstallNotificationDismissedReceiver"/>

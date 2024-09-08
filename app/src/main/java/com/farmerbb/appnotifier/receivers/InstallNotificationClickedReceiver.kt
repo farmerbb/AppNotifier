@@ -23,7 +23,8 @@ import com.farmerbb.appnotifier.getPlayStoreLaunchIntent
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import com.farmerbb.appnotifier.startActivitySafely
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -42,7 +43,7 @@ class InstallNotificationClickedReceiver: BroadcastReceiver() {
                     })
         }
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.deleteInstall(packageName)
         }
     }

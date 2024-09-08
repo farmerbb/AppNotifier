@@ -23,7 +23,8 @@ import com.farmerbb.appnotifier.PLAY_STORE_PACKAGE
 import com.farmerbb.appnotifier.isPlayStoreInstalled
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,7 +44,7 @@ class UpdateNotificationClickedReceiver: BroadcastReceiver() {
             }
         }
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.deleteAllUpdates()
         }
     }

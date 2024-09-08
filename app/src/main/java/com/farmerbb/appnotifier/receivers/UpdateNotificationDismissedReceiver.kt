@@ -20,7 +20,8 @@ import android.content.Context
 import android.content.Intent
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +31,7 @@ class UpdateNotificationDismissedReceiver: BroadcastReceiver() {
     @Inject lateinit var dao: AppUpdateDAO
 
     override fun onReceive(context: Context, intent: Intent) {
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.deleteAllUpdates()
         }
     }

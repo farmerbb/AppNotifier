@@ -21,7 +21,8 @@ import android.content.Intent
 import com.farmerbb.appnotifier.PACKAGE_NAME
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class InstallNotificationDismissedReceiver: BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         val packageName = intent.getStringExtra(PACKAGE_NAME).orEmpty()
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.deleteInstall(packageName)
         }
     }

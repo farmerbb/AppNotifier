@@ -34,7 +34,8 @@ import com.farmerbb.appnotifier.receivers.UpdateNotificationClickedReceiver
 import com.farmerbb.appnotifier.receivers.UpdateNotificationDismissedReceiver
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -60,7 +61,7 @@ class NotificationController @Inject constructor(
             isInstall = false
         )
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val list: List<AppUpdateInfo>
 
             dao.apply {
@@ -159,7 +160,7 @@ class NotificationController @Inject constructor(
                 isInstall = true
         )
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.apply {
                 deleteInstall(info.packageName)
                 insert(info)
@@ -219,7 +220,7 @@ class NotificationController @Inject constructor(
     fun cancelAppInstallNotification(packageName: String) {
         manager.cancel(packageName.hashCode())
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.deleteInstall(packageName)
 
             if(dao.getAllInstalls().isEmpty())
@@ -256,7 +257,7 @@ class NotificationController @Inject constructor(
     fun replayAppUpdates() {
         if(!pref.getBoolean("notify_updates", true)) return
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             val updates = dao.getAllUpdates().reversed()
             if(updates.isEmpty()) return@launch
 
@@ -269,7 +270,7 @@ class NotificationController @Inject constructor(
     fun replayAppInstalls() {
         if(!pref.getBoolean("notify_installs", true)) return
 
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             for(install in dao.getAllInstalls()) {
                 context.getPackageInfoSafely(install.packageName, dao)?.let {
                     buildAppInstallNotification(install.packageName, install.label, getIcon(it))

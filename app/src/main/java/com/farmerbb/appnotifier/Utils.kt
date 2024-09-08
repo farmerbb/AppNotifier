@@ -15,6 +15,8 @@
 
 package com.farmerbb.appnotifier
 
+import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -29,7 +31,8 @@ import android.os.Build
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.farmerbb.appnotifier.room.AppUpdateDAO
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 fun Context.initAppNotifierService() {
@@ -79,7 +82,7 @@ fun Context.getPackageInfoSafely(packageName: String, dao: AppUpdateDAO): Packag
     return try {
         packageManager.getPackageInfo(packageName, 0)
     } catch (e: PackageManager.NameNotFoundException) {
-        GlobalScope.launch {
+        CoroutineScope(Dispatchers.IO).launch {
             dao.apply {
                 deleteInstall(packageName)
                 deleteUpdate(packageName)
@@ -87,6 +90,13 @@ fun Context.getPackageInfoSafely(packageName: String, dao: AppUpdateDAO): Packag
         }
 
         null
+    }
+}
+
+fun Activity.grantNotificationPermissionIfNeeded() {
+    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+        requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS), 42)
     }
 }
 
@@ -98,4 +108,4 @@ const val APP_INSTALL_GROUP = "app_install_group"
 const val PACKAGE_NAME = "package_name"
 const val PLAY_STORE_PACKAGE = "com.android.vending"
 
-const val FLAGS = PendingIntent.FLAG_UPDATE_CURRENT
+const val FLAGS = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE

@@ -18,6 +18,7 @@ package com.farmerbb.appnotifier.ui
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.farmerbb.appnotifier.R
+import com.farmerbb.appnotifier.grantNotificationPermissionIfNeeded
 import com.farmerbb.appnotifier.initAppNotifierService
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +31,7 @@ class MainActivity: AppCompatActivity() {
 
         if(savedInstanceState == null) {
             initAppNotifierService()
+            grantNotificationPermissionIfNeeded()
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, SettingsFragment())
