@@ -6,7 +6,7 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
@@ -19,6 +19,7 @@ buildscript {
 plugins {
     id 'se.patrikerdes.use-latest-versions' version '0.2.15'
     id 'com.github.ben-manes.versions' version '0.36.0'
+    id 'com.google.devtools.ksp' version '2.0.20-1.0.25' apply false
 }
 
 dependencyUpdates {
@@ -27,8 +28,8 @@ dependencyUpdates {
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
     }
 }
 

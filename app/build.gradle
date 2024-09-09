@@ -1,6 +1,9 @@
+plugins {
+    id 'com.google.devtools.ksp'
+}
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 ext {
@@ -13,7 +16,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 34
+    compileSdk 34
     namespace "com.farmerbb.appnotifier"
 
     defaultConfig {
@@ -96,10 +99,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    ksp "androidx.room:room-compiler:$room_version"
 
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
 
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.1.2"
 }
