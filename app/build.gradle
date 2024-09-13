@@ -24,8 +24,8 @@ android {
 
         minSdkVersion 21
         targetSdkVersion 34
-        versionCode 9
-        versionName "1.2.3"
+        versionCode 10
+        versionName "1.2.4"
 
         resConfigs "en", "fr", "de", "sv", "pl", "ko", "it", "tr"
         vectorDrawables.generatedDensities = []
