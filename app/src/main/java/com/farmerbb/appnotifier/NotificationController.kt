@@ -28,9 +28,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import com.farmerbb.appnotifier.models.AppUpdateInfo
-import com.farmerbb.appnotifier.receivers.InstallNotificationClickedReceiver
 import com.farmerbb.appnotifier.receivers.InstallNotificationDismissedReceiver
-import com.farmerbb.appnotifier.receivers.UpdateNotificationClickedReceiver
 import com.farmerbb.appnotifier.receivers.UpdateNotificationDismissedReceiver
 import com.farmerbb.appnotifier.room.AppUpdateDAO
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -112,15 +110,14 @@ class NotificationController @Inject constructor(
         val channelId = "app_updates"
         context.createNotificationChannel(channelId)
 
-        val contentIntent = Intent(context, UpdateNotificationClickedReceiver::class.java).apply {
-            setPackage(BuildConfig.APPLICATION_ID)
+        val pendingContentIntent = getAppUpdateContentIntent()?.let { contentIntent ->
+            PendingIntent.getActivity(context, 0, contentIntent, FLAGS)
         }
 
         val deleteIntent = Intent(context, UpdateNotificationDismissedReceiver::class.java).apply {
             setPackage(BuildConfig.APPLICATION_ID)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, 0, contentIntent, FLAGS)
         val pendingDeleteIntent = PendingIntent.getBroadcast(context, 0, deleteIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)
@@ -140,7 +137,7 @@ class NotificationController @Inject constructor(
                 }
             })
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-            .setAutoCancel(true)
+         // .setAutoCancel(true)
             .setDeleteIntent(pendingDeleteIntent)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
@@ -176,9 +173,8 @@ class NotificationController @Inject constructor(
 
         val code = packageName.hashCode()
 
-        val contentIntent = Intent(context, InstallNotificationClickedReceiver::class.java).apply {
-            setPackage(BuildConfig.APPLICATION_ID)
-            putExtra(PACKAGE_NAME, packageName)
+        val pendingContentIntent = getAppInstallContentIntent(packageName)?.let { contentIntent ->
+            PendingIntent.getActivity(context, code, contentIntent, FLAGS)
         }
 
         val deleteIntent = Intent(context, InstallNotificationDismissedReceiver::class.java).apply {
@@ -186,7 +182,6 @@ class NotificationController @Inject constructor(
             putExtra(PACKAGE_NAME, packageName)
         }
 
-        val pendingContentIntent = PendingIntent.getBroadcast(context, code, contentIntent, FLAGS)
         val pendingDeleteIntent = PendingIntent.getBroadcast(context, code, deleteIntent, FLAGS)
 
         val builder = NotificationCompat.Builder(context, channelId)
@@ -197,7 +192,7 @@ class NotificationController @Inject constructor(
             .setStyle(NotificationCompat.BigTextStyle())
             .setLargeIcon(icon)
             .setColor(ContextCompat.getColor(context, R.color.colorPrimary))
-            .setAutoCancel(true)
+         // .setAutoCancel(true)
             .setDeleteIntent(pendingDeleteIntent)
             .setGroup(APP_INSTALL_GROUP)
             .setPriority(NotificationCompat.PRIORITY_LOW)
@@ -276,6 +271,27 @@ class NotificationController @Inject constructor(
                     buildAppInstallNotification(install.packageName, install.label, getIcon(it))
                 }
             }
+        }
+    }
+
+    fun getAppUpdateContentIntent(): Intent? {
+        if (!context.isPlayStoreInstalled()) return null
+
+        val intent = Intent("com.google.android.finsky.VIEW_MY_DOWNLOADS")
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+
+        with(context.packageManager) {
+            return intent.resolveActivity(this)?.let { intent }
+                ?: getLaunchIntentForPackage(PLAY_STORE_PACKAGE)
+        }
+    }
+
+    fun getAppInstallContentIntent(packageName: String): Intent? {
+        with(context.packageManager) {
+            val intent = getLaunchIntentForPackage(packageName)
+            return intent?.resolveActivity(this)?.let { intent }
+                ?: getPlayStoreLaunchIntent(packageName)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
     }
 }

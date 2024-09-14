@@ -51,9 +51,7 @@
                 android:value="This foreground service is required because the app\'s core functionality relies on broadcast receivers that listen to app install events, which are hosted inside of a service instead of an activity"/>
         </service>
 
-        <receiver android:name=".receivers.InstallNotificationClickedReceiver"/>
         <receiver android:name=".receivers.InstallNotificationDismissedReceiver"/>
-        <receiver android:name=".receivers.UpdateNotificationClickedReceiver"/>
         <receiver android:name=".receivers.UpdateNotificationDismissedReceiver"/>
 
         <receiver
