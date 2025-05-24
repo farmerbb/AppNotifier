@@ -13,8 +13,11 @@
  * limitations under the License.
  */
 
+@file:SuppressLint("NotificationPermission")
+
 package com.farmerbb.appnotifier
 
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -27,6 +30,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import com.farmerbb.appnotifier.models.AppUpdateInfo
 import com.farmerbb.appnotifier.receivers.InstallNotificationDismissedReceiver
 import com.farmerbb.appnotifier.receivers.UpdateNotificationDismissedReceiver
@@ -196,6 +200,24 @@ class NotificationController @Inject constructor(
             .setDeleteIntent(pendingDeleteIntent)
             .setGroup(APP_INSTALL_GROUP)
             .setPriority(NotificationCompat.PRIORITY_LOW)
+
+        if (pref.getBoolean("show_uninstall_button", false)) {
+            @Suppress("DEPRECATION")
+            val uninstallIntent = Intent(
+                Intent.ACTION_UNINSTALL_PACKAGE,
+                "package:$packageName".toUri(),
+            )
+
+            val pendingUninstallIntent = PendingIntent.getActivity(context, code, uninstallIntent, FLAGS)
+
+            builder.addAction(
+                NotificationCompat.Action(
+                    null,
+                    context.getString(R.string.uninstall),
+                    pendingUninstallIntent,
+                )
+            )
+        }
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val groupBuilder = NotificationCompat.Builder(context, channelId)

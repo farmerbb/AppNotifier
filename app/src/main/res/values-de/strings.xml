@@ -55,6 +55,9 @@
     <string name="about_content">Der AppNotifier stellt die nicht mehr unterstützten Benachrichtigungen des Play Store bei Installationen oder Updates von Apps wieder her.\n\n&#169; %d Braden Farmer\n\nKlicke hier, um auf Aktualisierungen zu prüfen oder eine Bewertung zu hinterlassen!</string>
 
     <string name="notification_text_style">Textstil der Benachrichtigungen</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="uninstall">Uninstall</string>
 
     <string-array name="notification_text_style_entries">
         <item>Original (Wie Play Store)</item>

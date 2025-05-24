@@ -55,6 +55,9 @@
     <string name="about_content">AppNotifier rétablit les notifications manquantes du Google Play Store lors d\'installations et de mises à jour d\'applications.\n\n&#169; %d Braden Farmer\n\nCliquez ici pour consulter une éventuelle mise à jour ou laisser un avis !</string>
 
     <string name="notification_text_style">Style du texte des notifications</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="uninstall">Uninstall</string>
 
     <string-array name="notification_text_style_entries">
         <item>Original (imite le Play Store)</item>

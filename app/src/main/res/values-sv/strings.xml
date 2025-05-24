@@ -52,6 +52,9 @@
     <string name="about_content">AppNotifier återställer Google Plays saknade aviseringar för appuppdateringar och appinstallationer.\n\n&#169; %d Braden Farmer\n\nTryck här för att kontrollera om det finns någon uppdatering eller för att betygsätta appen!</string>
 
     <string name="notification_text_style">Textstil på aviseringen</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="uninstall">Uninstall</string>
 
     <string-array name="notification_text_style_entries">
         <item>Original (efterlikna Play Butik)</item>

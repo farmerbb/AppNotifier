@@ -24,7 +24,10 @@ Güncellemeleri kontrol etmek ve bizi değerlendirmek için lütfen burayı tık
 <string name="notify_other_sources">Diğer tüm kaynaklardan</string>
 <string name="notify_play_store">Play Store mağazasından</string>
 <string name="notify_updates">Uygulama güncellemeleri</string>
+<string name="show_uninstall_button_summary">(for newly installed apps)</string>
+<string name="show_uninstall_button_title">Show uninstall button in notification</string>
 <string name="successfully_installed">Başarıyla yüklendi</string>
+<string name="uninstall">Uninstall</string>
 <string name="update_sources">Yükleme ve Güncelleme Kaynakları</string>
 
     <plurals name="apps_updated_header">

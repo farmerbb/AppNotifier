@@ -24,6 +24,9 @@ Clicca qui per controllare la presenza di aggiornamenti o per una recensione!"</
     <string name="notify_other_sources">Altre fonti (trasferimento locale)</string>
     <string name="notify_play_store">Google Play Store</string>
     <string name="notify_updates">Aggiornamenti di app esistenti</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
     <string name="successfully_installed">Installato con successo</string>
+    <string name="uninstall">Uninstall</string>
     <string name="update_sources">…quando installo o aggiorno app da</string>
 </resources>

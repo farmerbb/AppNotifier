@@ -55,6 +55,9 @@
     <string name="about_content">해당 앱은 Google Play 스토어의 앱 설치, 업데이트 알림을 표시합니다.\n\n&#169; %d Braden Farmer\nTranslated by ChoiWooYoung \n여기를 눌러 앱 업데이트 및 평가를 해주세요!</string>
 
     <string name="notification_text_style">알림 스타일</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="uninstall">Uninstall</string>
 
     <string-array name="notification_text_style_entries">
         <item>기본 알림 (Play 스토어 모방)</item>

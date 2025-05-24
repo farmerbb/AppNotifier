@@ -57,6 +57,9 @@
 	<string name="about_content">AppNotifier przywraca powiadomienia o aktualizacjach oraz instalacjach z Sklepu Google Play.\n\n&#169; %d Braden Farmer\n\nKliknij tutaj, aby sprawdzić dostępność aktualizacji lub zostawić ocenę!</string>
 
 	<string name="notification_text_style">Styl tekstu powiadomienia</string>
+	<string name="show_uninstall_button_title">Show uninstall button in notification</string>
+	<string name="show_uninstall_button_summary">(for newly installed apps)</string>
+	<string name="uninstall">Uninstall</string>
 
 	<string-array name="notification_text_style_entries">
 		<item>Oryginalne (imituj Sklep Google Play)</item>

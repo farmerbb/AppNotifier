@@ -58,7 +58,7 @@
 
     <PreferenceCategory
         android:key="additional_settings"
-        app:initialExpandedChildrenCount="1"
+        app:initialExpandedChildrenCount="2"
         app:iconSpaceReserved="false">
 
         <ListPreference
@@ -67,6 +67,13 @@
             android:defaultValue="original"
             android:entries="@array/notification_text_style_entries"
             android:entryValues="@array/notification_text_style_values"
+            app:iconSpaceReserved="false"/>
+
+        <CheckBoxPreference
+            android:key="show_uninstall_button"
+            android:title="@string/show_uninstall_button_title"
+            android:summary="@string/show_uninstall_button_summary"
+            android:defaultValue="false"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>

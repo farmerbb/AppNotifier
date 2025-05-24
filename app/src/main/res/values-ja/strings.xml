@@ -55,6 +55,9 @@
     <string name="about_content">AppNotifier は廃止された Google Play のアプリのアップデートとインストールの通知を取り戻します。\n\n&#169; %d Braden Farmer\n\nここをクリックして更新の確認とレビューの投稿ができます！</string>
 
     <string name="notification_text_style">通知テキストのスタイル</string>
+    <string name="show_uninstall_button_title">Show uninstall button in notification</string>
+    <string name="show_uninstall_button_summary">(for newly installed apps)</string>
+    <string name="uninstall">Uninstall</string>
 
     <string-array name="notification_text_style_entries">
         <item>オリジナル（Play ストアと同様）</item>
